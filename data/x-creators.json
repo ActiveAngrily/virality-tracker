@@ -1,0 +1,521 @@
+{
+  "metadata": {
+    "product_name": "Viral Format Radar",
+    "artifact_name": "x-creators",
+    "artifact_status": "stage_2_raw_collection_complete",
+    "schema_version": "vfr-x-schema-1.0",
+    "platform": "X",
+    "cohort_id": "x-b2b-tech-creators-2026-09",
+    "cohort_description": "30 public individual creators covering B2B technology, startups, product, growth, venture, and developer tools.",
+    "observed_from_utc": "2026-06-23T12:00:00Z",
+    "observed_to_utc": "2026-09-21T12:00:00Z",
+    "analysis_as_of_utc": "2026-09-21T12:00:00Z",
+    "planned_collection_date_utc": "2026-09-21T12:00:00Z",
+    "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+    "response_type": "public_views_at_collection",
+    "minimum_post_age_hours": 168,
+    "codebook_version": "vfr-x-codebook-1.0",
+    "threshold_version": "vfr-x-thresholds-1.0"
+  },
+  "schema": {
+    "version": "vfr-x-schema-1.0",
+    "entity": "creator",
+    "fields": {
+      "creator_id": {
+        "type": "string",
+        "nullable": false,
+        "unique": true
+      },
+      "creator_name": {
+        "type": "string",
+        "nullable": false
+      },
+      "creator_handle": {
+        "type": "string",
+        "nullable": false,
+        "unique": true
+      },
+      "profile_url": {
+        "type": "uri",
+        "nullable": false,
+        "unique": true
+      },
+      "role_or_category": {
+        "type": "string",
+        "nullable": false
+      },
+      "inclusion_reason": {
+        "type": "string",
+        "nullable": false
+      },
+      "collection_status": {
+        "type": "enum",
+        "nullable": false
+      },
+      "posts_collected": {
+        "type": "non_negative_integer",
+        "nullable": false
+      },
+      "collection_started_at_utc": {
+        "type": "utc_timestamp",
+        "nullable": true
+      },
+      "collection_completed_at_utc": {
+        "type": "utc_timestamp",
+        "nullable": true
+      },
+      "stop_reason": {
+        "type": "enum",
+        "nullable": true
+      },
+      "notes": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "enums": {
+      "collection_status": [
+        "pending",
+        "in_progress",
+        "complete",
+        "partial",
+        "blocked"
+      ],
+      "stop_reason": [
+        "reached_limit",
+        "reached_window_start",
+        "ui_exhausted",
+        "blocked",
+        "partial_interruption"
+      ]
+    },
+    "rules": [
+      "Exactly 30 creator records are required.",
+      "Creator identity fields and profile URLs are frozen at Stage 1 exit.",
+      "Checkpoint fields may change during Stage 2.",
+      "Every creator is an individual public X account, not a company page."
+    ]
+  },
+  "creators": [
+    {
+      "creator_id": "CR-001",
+      "creator_name": "Lenny Rachitsky",
+      "creator_handle": "@lennysan",
+      "profile_url": "https://x.com/lennysan",
+      "role_or_category": "product operator",
+      "inclusion_reason": "Publishes original product-management and startup insights relevant to B2B product teams.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T19:57:06Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Stage 2 raw collection complete: pilot records retained after timestamp and count QA."
+    },
+    {
+      "creator_id": "CR-002",
+      "creator_name": "Katelyn Bourgoin",
+      "creator_handle": "@kbourgoin",
+      "profile_url": "https://x.com/kbourgoin",
+      "role_or_category": "product marketer",
+      "inclusion_reason": "Publishes original customer-research and product-marketing content for startup teams.",
+      "collection_status": "blocked",
+      "posts_collected": 0,
+      "collection_started_at_utc": "2026-09-20T19:57:06Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "blocked",
+      "notes": "Profile is protected and identifies as Keith Bourgoin, not the rostered Katelyn Bourgoin; no public post activity was collected."
+    },
+    {
+      "creator_id": "CR-003",
+      "creator_name": "April Dunford",
+      "creator_handle": "@aprildunford",
+      "profile_url": "https://x.com/aprildunford",
+      "role_or_category": "product marketing",
+      "inclusion_reason": "Publishes original positioning and go-to-market guidance for B2B technology companies.",
+      "collection_status": "blocked",
+      "posts_collected": 0,
+      "collection_started_at_utc": "2026-09-20T19:57:06Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "blocked",
+      "notes": "Public profile rendered, but visible post history ends February 28, 2012; no usable activity falls inside the frozen 2026-06-23–2026-09-21 window."
+    },
+    {
+      "creator_id": "CR-004",
+      "creator_name": "Dave Gerhardt",
+      "creator_handle": "@davegerhardt",
+      "profile_url": "https://x.com/davegerhardt",
+      "role_or_category": "B2B marketer",
+      "inclusion_reason": "Publishes original B2B marketing and startup growth observations.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T19:57:06Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Stage 2 raw collection complete: pilot records retained after timestamp and count QA."
+    },
+    {
+      "creator_id": "CR-005",
+      "creator_name": "Amanda Natividad",
+      "creator_handle": "@amandanat",
+      "profile_url": "https://x.com/amandanat",
+      "role_or_category": "content marketer",
+      "inclusion_reason": "Publishes original content strategy and B2B marketing analysis.",
+      "collection_status": "complete",
+      "posts_collected": 1,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Main collection: Rendered public profile collection; 1 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-006",
+      "creator_name": "Ross Simmonds",
+      "creator_handle": "@TheCoolestCool",
+      "profile_url": "https://x.com/TheCoolestCool",
+      "role_or_category": "B2B content strategist",
+      "inclusion_reason": "Publishes original B2B content-distribution and startup marketing insights.",
+      "collection_status": "complete",
+      "posts_collected": 20,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "ui_exhausted",
+      "notes": "Main collection: Rendered public profile collection; 20 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-007",
+      "creator_name": "Gaetano DiNardi",
+      "creator_handle": "@gaetano_nyc",
+      "profile_url": "https://x.com/gaetano_nyc",
+      "role_or_category": "growth marketer",
+      "inclusion_reason": "Publishes original B2B demand-generation, SEO, and growth content.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-008",
+      "creator_name": "Peep Laja",
+      "creator_handle": "@peeplaja",
+      "profile_url": "https://x.com/peeplaja",
+      "role_or_category": "startup operator",
+      "inclusion_reason": "Publishes original conversion, product, and SaaS growth analysis.",
+      "collection_status": "complete",
+      "posts_collected": 40,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Main collection: Rendered public profile collection; 40 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-009",
+      "creator_name": "Rand Fishkin",
+      "creator_handle": "@randfish",
+      "profile_url": "https://x.com/randfish",
+      "role_or_category": "technology founder",
+      "inclusion_reason": "Publishes original technology, marketing, and startup-building analysis.",
+      "collection_status": "complete",
+      "posts_collected": 24,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Main collection: Rendered public profile collection; 24 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-010",
+      "creator_name": "Brian Balfour",
+      "creator_handle": "@bbalfour",
+      "profile_url": "https://x.com/bbalfour",
+      "role_or_category": "growth operator",
+      "inclusion_reason": "Publishes original product-led growth and SaaS operating insights.",
+      "collection_status": "complete",
+      "posts_collected": 1,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Main collection: Rendered public profile collection; 1 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-011",
+      "creator_name": "Andrew Chen",
+      "creator_handle": "@andrewchen",
+      "profile_url": "https://x.com/andrewchen",
+      "role_or_category": "startup investor",
+      "inclusion_reason": "Publishes original marketplace, growth, and technology-investing analysis.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-012",
+      "creator_name": "Tomasz Tunguz",
+      "creator_handle": "@ttunguz",
+      "profile_url": "https://x.com/ttunguz",
+      "role_or_category": "SaaS investor",
+      "inclusion_reason": "Publishes original SaaS, venture, and startup-market analysis.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-013",
+      "creator_name": "Jason Lemkin",
+      "creator_handle": "@jason",
+      "profile_url": "https://x.com/jason",
+      "role_or_category": "SaaS founder and investor",
+      "inclusion_reason": "Publishes original SaaS, sales, and startup operating guidance.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-014",
+      "creator_name": "Elad Gil",
+      "creator_handle": "@eladgil",
+      "profile_url": "https://x.com/eladgil",
+      "role_or_category": "technology investor",
+      "inclusion_reason": "Publishes original AI, technology, and startup-investing observations.",
+      "collection_status": "complete",
+      "posts_collected": 42,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "ui_exhausted",
+      "notes": "Main collection: Rendered public profile collection; 42 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-015",
+      "creator_name": "Dharmesh Shah",
+      "creator_handle": "@dharmesh",
+      "profile_url": "https://x.com/dharmesh",
+      "role_or_category": "SaaS founder",
+      "inclusion_reason": "Publishes original startup, product, and AI-building insights.",
+      "collection_status": "complete",
+      "posts_collected": 31,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Main collection: Rendered public profile collection; 31 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-016",
+      "creator_name": "Hiten Shah",
+      "creator_handle": "@hnshah",
+      "profile_url": "https://x.com/hnshah",
+      "role_or_category": "product founder",
+      "inclusion_reason": "Publishes original product, SaaS, and startup lessons.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-017",
+      "creator_name": "Jason Fried",
+      "creator_handle": "@jasonfried",
+      "profile_url": "https://x.com/jasonfried",
+      "role_or_category": "SaaS founder",
+      "inclusion_reason": "Publishes original software-product and startup-operating perspectives.",
+      "collection_status": "complete",
+      "posts_collected": 41,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "ui_exhausted",
+      "notes": "Main collection: Rendered public profile collection; 41 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-018",
+      "creator_name": "Rob Walling",
+      "creator_handle": "@robwalling",
+      "profile_url": "https://x.com/robwalling",
+      "role_or_category": "SaaS founder and investor",
+      "inclusion_reason": "Publishes original bootstrapped SaaS and startup-building guidance.",
+      "collection_status": "complete",
+      "posts_collected": 11,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Main collection: Rendered public profile collection; 11 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-019",
+      "creator_name": "Arvid Kahl",
+      "creator_handle": "@arvidkahl",
+      "profile_url": "https://x.com/arvidkahl",
+      "role_or_category": "bootstrapped founder",
+      "inclusion_reason": "Publishes original bootstrapping, SaaS, and founder-market insights.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-020",
+      "creator_name": "Pieter Levels",
+      "creator_handle": "@levelsio",
+      "profile_url": "https://x.com/levelsio",
+      "role_or_category": "indie technology founder",
+      "inclusion_reason": "Publishes original build-in-public and software-business updates.",
+      "collection_status": "complete",
+      "posts_collected": 23,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "ui_exhausted",
+      "notes": "Main collection: Rendered public profile collection; 23 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-021",
+      "creator_name": "Sahil Lavingia",
+      "creator_handle": "@shl",
+      "profile_url": "https://x.com/shl",
+      "role_or_category": "startup founder and investor",
+      "inclusion_reason": "Publishes original startup, product, and venture perspectives.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-022",
+      "creator_name": "Guillermo Rauch",
+      "creator_handle": "@rauchg",
+      "profile_url": "https://x.com/rauchg",
+      "role_or_category": "developer tools founder",
+      "inclusion_reason": "Publishes original web-platform, developer-tools, and startup product updates.",
+      "collection_status": "complete",
+      "posts_collected": 40,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "ui_exhausted",
+      "notes": "Main collection: Rendered public profile collection; 40 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-023",
+      "creator_name": "Swyx",
+      "creator_handle": "@swyx",
+      "profile_url": "https://x.com/swyx",
+      "role_or_category": "developer-tools operator",
+      "inclusion_reason": "Publishes original AI, developer-tools, and technology-community analysis.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-024",
+      "creator_name": "Kelsey Hightower",
+      "creator_handle": "@kelseyhightower",
+      "profile_url": "https://x.com/kelseyhightower",
+      "role_or_category": "cloud technology educator",
+      "inclusion_reason": "Publishes original cloud, infrastructure, and developer-technology perspectives.",
+      "collection_status": "blocked",
+      "posts_collected": 0,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "blocked",
+      "notes": "Rendered profile explicitly shows 0 posts; no public activity was collected."
+    },
+    {
+      "creator_id": "CR-025",
+      "creator_name": "Cassidy Williams",
+      "creator_handle": "@cassidoo",
+      "profile_url": "https://x.com/cassidoo",
+      "role_or_category": "technical creator",
+      "inclusion_reason": "Publishes original developer education, engineering, and technology content.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-026",
+      "creator_name": "Kent C. Dodds",
+      "creator_handle": "@kentcdodds",
+      "profile_url": "https://x.com/kentcdodds",
+      "role_or_category": "developer educator",
+      "inclusion_reason": "Publishes original developer-tools, testing, and engineering education content.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-027",
+      "creator_name": "Simon Willison",
+      "creator_handle": "@simonw",
+      "profile_url": "https://x.com/simonw",
+      "role_or_category": "software developer",
+      "inclusion_reason": "Publishes original software, data, and applied-AI technical analysis.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-028",
+      "creator_name": "Wes Bos",
+      "creator_handle": "@wesbos",
+      "profile_url": "https://x.com/wesbos",
+      "role_or_category": "developer educator and founder",
+      "inclusion_reason": "Publishes original developer education, tools, and product-building content.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-029",
+      "creator_name": "Justin Welsh",
+      "creator_handle": "@thejustinwelsh",
+      "profile_url": "https://x.com/thejustinwelsh",
+      "role_or_category": "startup creator",
+      "inclusion_reason": "Publishes original startup, audience, and solo-business content relevant to B2B creators.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "CR-030",
+      "creator_name": "Greg Isenberg",
+      "creator_handle": "@gregisenberg",
+      "profile_url": "https://x.com/gregisenberg",
+      "role_or_category": "startup founder and investor",
+      "inclusion_reason": "Publishes original startup, community, product, and venture-building ideas.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:24:56Z",
+      "collection_completed_at_utc": "2026-09-20T20:24:56Z",
+      "stop_reason": "reached_limit",
+      "notes": "Main collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    }
+  ]
+}

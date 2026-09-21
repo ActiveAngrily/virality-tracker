@@ -1,0 +1,42 @@
+[
+  {
+    "post_id": "2101695368123818411",
+    "cohort": "base",
+    "format": "FP-UNCLASSIFIED",
+    "hook": "HP-01",
+    "decision": "approved",
+    "reason": "Podcast promotion with a contrarian opening claim; no frozen format applies."
+  },
+  {
+    "post_id": "2101717063018684540",
+    "cohort": "base",
+    "format": "FP-UNCLASSIFIED",
+    "hook": "HP-UNCLASSIFIED",
+    "decision": "approved",
+    "reason": "A short attributed observation with no identifiable frozen format or hook."
+  },
+  {
+    "post_id": "2100968394652831889",
+    "cohort": "base",
+    "format": "FP-UNCLASSIFIED",
+    "hook": "HP-02",
+    "decision": "approved",
+    "reason": "Opens with a concrete numbered list of 25 roles, which is specific proof."
+  },
+  {
+    "post_id": "2101592284160499905",
+    "cohort": "expansion",
+    "format": "FP-UNCLASSIFIED",
+    "hook": "HP-UNCLASSIFIED",
+    "decision": "corrected",
+    "reason": "Personal recommendation, not an individual lesson or changed belief."
+  },
+  {
+    "post_id": "2101445133141004627",
+    "cohort": "expansion",
+    "format": "FP-UNCLASSIFIED",
+    "hook": "HP-05",
+    "decision": "approved",
+    "reason": "Opens with a personal anecdote that presents a lesson."
+  }
+]

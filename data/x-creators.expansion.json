@@ -1,0 +1,521 @@
+{
+  "metadata": {
+    "product_name": "Viral Format Radar",
+    "artifact_name": "x-creators.expansion",
+    "artifact_status": "stage_2_expansion_collection_complete",
+    "schema_version": "vfr-x-schema-1.0",
+    "platform": "X",
+    "cohort_id": "x-b2b-tech-creators-expansion-2026-09",
+    "cohort_description": "30 additional public individual creators covering startups, technology, product, growth, marketing, and venture.",
+    "observed_from_utc": "2026-06-23T12:00:00Z",
+    "observed_to_utc": "2026-09-21T12:00:00Z",
+    "analysis_as_of_utc": "2026-09-21T12:00:00Z",
+    "planned_collection_date_utc": "2026-09-21T12:00:00Z",
+    "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+    "response_type": "public_views_at_collection",
+    "minimum_post_age_hours": 168,
+    "codebook_version": "vfr-x-codebook-1.0",
+    "threshold_version": "vfr-x-thresholds-1.0"
+  },
+  "schema": {
+    "version": "vfr-x-schema-1.0",
+    "entity": "creator",
+    "fields": {
+      "creator_id": {
+        "type": "string",
+        "nullable": false,
+        "unique": true
+      },
+      "creator_name": {
+        "type": "string",
+        "nullable": false
+      },
+      "creator_handle": {
+        "type": "string",
+        "nullable": false,
+        "unique": true
+      },
+      "profile_url": {
+        "type": "uri",
+        "nullable": false,
+        "unique": true
+      },
+      "role_or_category": {
+        "type": "string",
+        "nullable": false
+      },
+      "inclusion_reason": {
+        "type": "string",
+        "nullable": false
+      },
+      "collection_status": {
+        "type": "enum",
+        "nullable": false
+      },
+      "posts_collected": {
+        "type": "non_negative_integer",
+        "nullable": false
+      },
+      "collection_started_at_utc": {
+        "type": "utc_timestamp",
+        "nullable": true
+      },
+      "collection_completed_at_utc": {
+        "type": "utc_timestamp",
+        "nullable": true
+      },
+      "stop_reason": {
+        "type": "enum",
+        "nullable": true
+      },
+      "notes": {
+        "type": "string",
+        "nullable": true
+      }
+    },
+    "enums": {
+      "collection_status": [
+        "pending",
+        "in_progress",
+        "complete",
+        "partial",
+        "blocked"
+      ],
+      "stop_reason": [
+        "reached_limit",
+        "reached_window_start",
+        "ui_exhausted",
+        "blocked",
+        "partial_interruption"
+      ]
+    },
+    "rules": [
+      "Exactly 30 creator records are required.",
+      "Creator identity fields and profile URLs are frozen at Stage 1 exit.",
+      "Checkpoint fields may change during Stage 2.",
+      "Every creator is an individual public X account, not a company page."
+    ]
+  },
+  "creators": [
+    {
+      "creator_id": "EX-001",
+      "creator_name": "Paul Graham",
+      "creator_handle": "@paulg",
+      "profile_url": "https://x.com/paulg",
+      "role_or_category": "startup investor and writer",
+      "inclusion_reason": "Publishes startup, technology, and founder guidance relevant to early-stage B2B teams.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-002",
+      "creator_name": "Sam Altman",
+      "creator_handle": "@sama",
+      "profile_url": "https://x.com/sama",
+      "role_or_category": "AI and startup operator",
+      "inclusion_reason": "Publishes original AI, technology, and startup observations relevant to software teams.",
+      "collection_status": "complete",
+      "posts_collected": 43,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "ui_exhausted",
+      "notes": "Expansion collection: Rendered public profile collection; 43 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-003",
+      "creator_name": "Naval Ravikant",
+      "creator_handle": "@naval",
+      "profile_url": "https://x.com/naval",
+      "role_or_category": "startup investor",
+      "inclusion_reason": "Publishes original technology, entrepreneurship, and investing ideas relevant to founders.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-004",
+      "creator_name": "Marc Andreessen",
+      "creator_handle": "@pmarca",
+      "profile_url": "https://x.com/pmarca",
+      "role_or_category": "technology investor",
+      "inclusion_reason": "Publishes original technology, software, and venture-investing analysis.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-005",
+      "creator_name": "Ben Horowitz",
+      "creator_handle": "@bhorowitz",
+      "profile_url": "https://x.com/bhorowitz",
+      "role_or_category": "startup investor",
+      "inclusion_reason": "Publishes original management, technology, and startup operating guidance.",
+      "collection_status": "complete",
+      "posts_collected": 17,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 17 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-006",
+      "creator_name": "Garry Tan",
+      "creator_handle": "@garrytan",
+      "profile_url": "https://x.com/garrytan",
+      "role_or_category": "startup operator and investor",
+      "inclusion_reason": "Publishes original startup, engineering, AI, and accelerator insights.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-007",
+      "creator_name": "Michael Seibel",
+      "creator_handle": "@mwseibel",
+      "profile_url": "https://x.com/mwseibel",
+      "role_or_category": "startup operator and investor",
+      "inclusion_reason": "Publishes original startup-building and founder guidance for technology companies.",
+      "collection_status": "complete",
+      "posts_collected": 34,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 34 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-008",
+      "creator_name": "Dalton Caldwell",
+      "creator_handle": "@daltonc",
+      "profile_url": "https://x.com/daltonc",
+      "role_or_category": "startup and AI operator",
+      "inclusion_reason": "Publishes original startup, product, and AI ecosystem observations.",
+      "collection_status": "complete",
+      "posts_collected": 33,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 33 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-009",
+      "creator_name": "Alexis Ohanian",
+      "creator_handle": "@alexisohanian",
+      "profile_url": "https://x.com/alexisohanian",
+      "role_or_category": "technology founder and investor",
+      "inclusion_reason": "Publishes original founder, technology, and startup-investing content.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-010",
+      "creator_name": "David Sacks",
+      "creator_handle": "@DavidSacks",
+      "profile_url": "https://x.com/DavidSacks",
+      "role_or_category": "enterprise software founder and investor",
+      "inclusion_reason": "Publishes original enterprise software, technology, and venture analysis.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-011",
+      "creator_name": "Aleyda Solis",
+      "creator_handle": "@aleyda",
+      "profile_url": "https://x.com/aleyda",
+      "role_or_category": "SEO and growth operator",
+      "inclusion_reason": "Publishes original technical SEO, search, and growth guidance for digital businesses.",
+      "collection_status": "complete",
+      "posts_collected": 40,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "ui_exhausted",
+      "notes": "Expansion collection: Rendered public profile collection; 40 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-012",
+      "creator_name": "Andy Crestodina",
+      "creator_handle": "@crestodina",
+      "profile_url": "https://x.com/crestodina",
+      "role_or_category": "B2B marketing operator",
+      "inclusion_reason": "Publishes original B2B content, analytics, and marketing strategy.",
+      "collection_status": "complete",
+      "posts_collected": 1,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 1 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-013",
+      "creator_name": "Ross Hudgens",
+      "creator_handle": "@RossHudgens",
+      "profile_url": "https://x.com/RossHudgens",
+      "role_or_category": "B2B content founder",
+      "inclusion_reason": "Publishes original SEO, content distribution, and B2B SaaS marketing insights.",
+      "collection_status": "complete",
+      "posts_collected": 44,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "ui_exhausted",
+      "notes": "Expansion collection: Rendered public profile collection; 44 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-014",
+      "creator_name": "Joanna Wiebe",
+      "creator_handle": "@copyhackers",
+      "profile_url": "https://x.com/copyhackers",
+      "role_or_category": "B2B conversion copywriter",
+      "inclusion_reason": "Publishes original conversion, messaging, and SaaS marketing guidance.",
+      "collection_status": "complete",
+      "posts_collected": 1,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 1 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-016",
+      "creator_name": "Neil Patel",
+      "creator_handle": "@neilpatel",
+      "profile_url": "https://x.com/neilpatel",
+      "role_or_category": "growth marketer",
+      "inclusion_reason": "Publishes original SEO, acquisition, and growth content for internet businesses.",
+      "collection_status": "complete",
+      "posts_collected": 20,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "ui_exhausted",
+      "notes": "Expansion collection: Rendered public profile collection; 20 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-017",
+      "creator_name": "Mark Roberge",
+      "creator_handle": "@markroberge",
+      "profile_url": "https://x.com/markroberge",
+      "role_or_category": "sales and venture operator",
+      "inclusion_reason": "Publishes original go-to-market, sales, and startup operating insights.",
+      "collection_status": "complete",
+      "posts_collected": 2,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 2 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-019",
+      "creator_name": "Shreyas Doshi",
+      "creator_handle": "@shreyas",
+      "profile_url": "https://x.com/shreyas",
+      "role_or_category": "product operator",
+      "inclusion_reason": "Publishes original product management and startup operating guidance.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-020",
+      "creator_name": "Teresa Torres",
+      "creator_handle": "@ttorres",
+      "profile_url": "https://x.com/ttorres",
+      "role_or_category": "product discovery operator",
+      "inclusion_reason": "Publishes original product discovery and customer-research practices.",
+      "collection_status": "complete",
+      "posts_collected": 42,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 42 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-021",
+      "creator_name": "Julie Zhuo",
+      "creator_handle": "@joulee",
+      "profile_url": "https://x.com/joulee",
+      "role_or_category": "product and design operator",
+      "inclusion_reason": "Publishes original product leadership, design, and team-building insights.",
+      "collection_status": "complete",
+      "posts_collected": 33,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 33 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-023",
+      "creator_name": "Nir Eyal",
+      "creator_handle": "@nireyal",
+      "profile_url": "https://x.com/nireyal",
+      "role_or_category": "product and behavior writer",
+      "inclusion_reason": "Publishes original product, engagement, and behavior-design guidance.",
+      "collection_status": "complete",
+      "posts_collected": 20,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "ui_exhausted",
+      "notes": "Expansion collection: Rendered public profile collection; 20 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-025",
+      "creator_name": "Des Traynor",
+      "creator_handle": "@destraynor",
+      "profile_url": "https://x.com/destraynor",
+      "role_or_category": "SaaS product operator",
+      "inclusion_reason": "Publishes original SaaS product, customer, and company-building insights.",
+      "collection_status": "complete",
+      "posts_collected": 10,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 10 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-026",
+      "creator_name": "Paul Adams",
+      "creator_handle": "@padday",
+      "profile_url": "https://x.com/padday",
+      "role_or_category": "product and design operator",
+      "inclusion_reason": "Publishes original product, UX, and technology leadership observations.",
+      "collection_status": "complete",
+      "posts_collected": 5,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 5 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-027",
+      "creator_name": "Elena Verna",
+      "creator_handle": "@elenaverna",
+      "profile_url": "https://x.com/elenaverna",
+      "role_or_category": "growth operator",
+      "inclusion_reason": "Publishes original growth, retention, and SaaS operating analysis.",
+      "collection_status": "complete",
+      "posts_collected": 1,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 1 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-028",
+      "creator_name": "Noah Kagan",
+      "creator_handle": "@noahkagan",
+      "profile_url": "https://x.com/noahkagan",
+      "role_or_category": "startup founder and marketer",
+      "inclusion_reason": "Publishes original startup, marketing, and customer-acquisition content.",
+      "collection_status": "complete",
+      "posts_collected": 41,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 41 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-029",
+      "creator_name": "Ben Thompson",
+      "creator_handle": "@benthompson",
+      "profile_url": "https://x.com/benthompson",
+      "role_or_category": "technology analyst",
+      "inclusion_reason": "Publishes original technology strategy and software-business analysis.",
+      "collection_status": "complete",
+      "posts_collected": 6,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 6 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-031",
+      "creator_name": "Patrick Collison",
+      "creator_handle": "@patrickc",
+      "profile_url": "https://x.com/patrickc",
+      "role_or_category": "technology founder",
+      "inclusion_reason": "Publishes original technology, infrastructure, and startup ecosystem observations.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-032",
+      "creator_name": "Keith Rabois",
+      "creator_handle": "@rabois",
+      "profile_url": "https://x.com/rabois",
+      "role_or_category": "startup founder and investor",
+      "inclusion_reason": "Publishes original startup, management, and venture-investing guidance.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-033",
+      "creator_name": "Erik Torenberg",
+      "creator_handle": "@eriktorenberg",
+      "profile_url": "https://x.com/eriktorenberg",
+      "role_or_category": "technology media operator",
+      "inclusion_reason": "Publishes original technology, startup, and founder-community analysis.",
+      "collection_status": "complete",
+      "posts_collected": 39,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_window_start",
+      "notes": "Expansion collection: Rendered public profile collection; 39 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-034",
+      "creator_name": "David Perell",
+      "creator_handle": "@david_perell",
+      "profile_url": "https://x.com/david_perell",
+      "role_or_category": "creator and writing operator",
+      "inclusion_reason": "Publishes original writing, audience, and online-business insights relevant to creators.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    },
+    {
+      "creator_id": "EX-036",
+      "creator_name": "Dickie Bush",
+      "creator_handle": "@dickiebush",
+      "profile_url": "https://x.com/dickiebush",
+      "role_or_category": "creator and startup operator",
+      "inclusion_reason": "Publishes original writing, creator-business, and online entrepreneurship content.",
+      "collection_status": "complete",
+      "posts_collected": 50,
+      "collection_started_at_utc": "2026-09-20T20:57:12Z",
+      "collection_completed_at_utc": "2026-09-20T20:57:12Z",
+      "stop_reason": "reached_limit",
+      "notes": "Expansion collection: Rendered public profile collection; 50 qualifying original/quote posts retained; Show more remains noted per card for later permalink text QA."
+    }
+  ]
+}

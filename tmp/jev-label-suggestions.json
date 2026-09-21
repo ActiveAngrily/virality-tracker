@@ -1,0 +1,172 @@
+[
+  {
+    "cohort": "base",
+    "post_id": "2101695368123818411",
+    "post_url": "https://x.com/lennysan/status/2101695368123818411",
+    "format": {
+      "type": "choice",
+      "choice": "FP-UNCLASSIFIED",
+      "confidence": 0.95,
+      "probabilities": {
+        "FP-03": 0,
+        "FP-UNCLASSIFIED": 0.96,
+        "FP-04": 0,
+        "FP-06": 0,
+        "FP-02": 0,
+        "FP-07": 0,
+        "FP-01": 0,
+        "FP-05": 0.04
+      }
+    },
+    "hook": {
+      "type": "choice",
+      "choice": "HP-01",
+      "confidence": 0.88,
+      "probabilities": {
+        "HP-05": 0.01,
+        "HP-02": 0,
+        "HP-06": 0,
+        "HP-04": 0.03,
+        "HP-UNCLASSIFIED": 0.06,
+        "HP-03": 0,
+        "HP-01": 0.9
+      }
+    }
+  },
+  {
+    "cohort": "base",
+    "post_id": "2101717063018684540",
+    "post_url": "https://x.com/lennysan/status/2101717063018684540",
+    "format": {
+      "type": "choice",
+      "choice": "FP-UNCLASSIFIED",
+      "confidence": 0.97,
+      "probabilities": {
+        "FP-06": 0,
+        "FP-07": 0,
+        "FP-03": 0,
+        "FP-01": 0,
+        "FP-02": 0,
+        "FP-05": 0.02,
+        "FP-04": 0,
+        "FP-UNCLASSIFIED": 0.98
+      }
+    },
+    "hook": {
+      "type": "choice",
+      "choice": "HP-UNCLASSIFIED",
+      "confidence": 0.52,
+      "probabilities": {
+        "HP-02": 0.01,
+        "HP-04": 0.11,
+        "HP-06": 0,
+        "HP-UNCLASSIFIED": 0.59,
+        "HP-03": 0.01,
+        "HP-01": 0.23,
+        "HP-05": 0.05
+      }
+    }
+  },
+  {
+    "cohort": "base",
+    "post_id": "2100968394652831889",
+    "post_url": "https://x.com/lennysan/status/2100968394652831889",
+    "format": {
+      "type": "choice",
+      "choice": "FP-UNCLASSIFIED",
+      "confidence": 0.91,
+      "probabilities": {
+        "FP-05": 0,
+        "FP-07": 0,
+        "FP-02": 0,
+        "FP-06": 0.07,
+        "FP-03": 0,
+        "FP-04": 0,
+        "FP-01": 0,
+        "FP-UNCLASSIFIED": 0.93
+      }
+    },
+    "hook": {
+      "type": "choice",
+      "choice": "HP-02",
+      "confidence": 0.63,
+      "probabilities": {
+        "HP-02": 0.68,
+        "HP-04": 0.01,
+        "HP-05": 0,
+        "HP-03": 0,
+        "HP-06": 0.2,
+        "HP-01": 0,
+        "HP-UNCLASSIFIED": 0.11
+      }
+    }
+  },
+  {
+    "cohort": "expansion",
+    "post_id": "2101592284160499905",
+    "post_url": "https://x.com/paulg/status/2101592284160499905",
+    "format": {
+      "type": "choice",
+      "choice": "FP-UNCLASSIFIED",
+      "confidence": 1,
+      "probabilities": {
+        "FP-07": 0,
+        "FP-03": 0,
+        "FP-01": 0,
+        "FP-UNCLASSIFIED": 1,
+        "FP-02": 0,
+        "FP-04": 0,
+        "FP-05": 0,
+        "FP-06": 0
+      }
+    },
+    "hook": {
+      "type": "choice",
+      "choice": "HP-05",
+      "confidence": 0.4,
+      "probabilities": {
+        "HP-02": 0.01,
+        "HP-06": 0.01,
+        "HP-UNCLASSIFIED": 0.46,
+        "HP-03": 0.04,
+        "HP-04": 0.01,
+        "HP-01": 0,
+        "HP-05": 0.47
+      }
+    }
+  },
+  {
+    "cohort": "expansion",
+    "post_id": "2101445133141004627",
+    "post_url": "https://x.com/paulg/status/2101445133141004627",
+    "format": {
+      "type": "choice",
+      "choice": "FP-UNCLASSIFIED",
+      "confidence": 0.96,
+      "probabilities": {
+        "FP-07": 0,
+        "FP-05": 0.03,
+        "FP-UNCLASSIFIED": 0.97,
+        "FP-03": 0,
+        "FP-02": 0,
+        "FP-04": 0,
+        "FP-06": 0,
+        "FP-01": 0
+      }
+    },
+    "hook": {
+      "type": "choice",
+      "choice": "HP-05",
+      "confidence": 0.55,
+      "probabilities": {
+        "HP-04": 0.02,
+        "HP-06": 0,
+        "HP-05": 0.62,
+        "HP-01": 0.2,
+        "HP-UNCLASSIFIED": 0.14,
+        "HP-03": 0.02,
+        "HP-02": 0
+      }
+    }
+  }
+]
