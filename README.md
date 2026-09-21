@@ -1,127 +1,162 @@
-# Viral Format Radar
+# Virality Tracker
 
-A local research proof of concept for reviewing formats and hooks observed in the original fixed cohort of 30 X creators. It reports creator-relative view lift and later adoption without black-box scores or causal claims.
+> A fixed-snapshot research interface for exploring how recurring post formats and hooks appear across a selected cohort of public X creators.
+
+[View the project source](https://github.com/ActiveAngrily/virality-tracker) · [Independent research by Anant Jamuar](https://anantjamuar.me)
 
 ---
 
 ## Overview
 
-**Viral Format Radar** demonstrates how content strategists can monitor emerging format patterns across creators over time:
+Virality Tracker—called **Viral Format Radar** in the dataset and research artifacts—helps readers inspect recurring content patterns without reducing them to a single score. The interface compares first-use posts with each creator’s own earlier performance, shows adoption order within the observed cohort, and keeps source evidence and limitations close to every claim.
 
-1. **Creator-relative baseline comparison**: Evaluates posts against each creator's normal baseline (median view count from matured posts at least 7 days old) rather than comparing raw view counts across creators.
-2. **Concrete format & hook tracking**: Categorizes content into actionable format patterns (teardowns, before/after comparisons, tactical workflows) and hook patterns (contrarian claims, concrete numbers, curiosity gaps) via a frozen codebook.
-3. **Early adoption vs. normal performance**: Identifies qualifying events at ≥1.5× creator baseline that were followed by later adopters within 30 days.
-4. **Transparent, verifiable evidence**: Every displayed metric, lifecycle state, and pattern directly links to public source posts on X and raw snapshot metrics.
+The application has two screens:
 
----
+| Route | Purpose |
+| --- | --- |
+| `#/radar` | Browse tracked formats and hooks; filter by lifecycle or type; sort by default evidence order, recency, or median view lift. |
+| `#/pattern/<pattern-id>` | Review one pattern’s evidence summary, interactive adoption timeline, creator records, representative source posts, and data limitations. |
 
-## Project Structure
+Filter and sort state is retained when moving between the radar and a pattern detail page.
+
+## Key features
+
+- **Creator-relative evidence** — view lift compares a post with the median views of the same creator’s eligible earlier posts.
+- **Formats and hooks** — the frozen codebook separates how a post is structured from how it opens.
+- **Transparent lifecycle states** — patterns are presented as Emerging, Validated, Fading, or Insufficient Evidence using the frozen Stage 3 rules.
+- **Interactive adoption timeline** — every event is a native button with creator, date, rank, adopter status, percentile where available, and later-adopter evidence.
+- **Source-level traceability** — pattern details link back to the corresponding public X posts when a valid source URL is available.
+- **Explicit unavailable states** — missing counts, young posts, limited baselines, and withheld medians remain visible instead of being converted to zero.
+- **Deterministic local analysis** — the UI analyzes the bundled primary snapshot in memory; it has no backend, database, authentication, or runtime data collection.
+
+## Methodology
+
+The primary interface reads [`data/demo-data.json`](./data/demo-data.json), validates it, and passes it through the deterministic analysis in [`src/analysis.mjs`](./src/analysis.mjs).
+
+| Research setting | Frozen value |
+| --- | --- |
+| Primary cohort | 30 public creators across B2B technology, startups, product, growth, venture, and developer tools |
+| Primary post snapshot | 1,074 posts |
+| Observation window | 23 June–21 September 2026 |
+| Analysis date | 21 September 2026 |
+| Creator history cap | 50 collected posts per creator |
+| Performance eligibility | Post age of at least 168 hours at collection |
+| Baseline | Median views from up to 20 eligible earlier posts by the same creator |
+| Supported baseline | At least 10 eligible earlier posts |
+| Supported breakout | At least `1.5×` the creator baseline with a supported baseline |
+| Early-adopter boundary | Adoption percentile at or below `0.25` |
+| Later-adoption window | 30 days after the creator’s first observed use |
+| Validated-capture minimums | At least 4 distinct adopters and 2 later adopters, plus early-adopter and supported-breakout checks |
+| Recent window | 7 days before the fixed analysis date |
+
+These thresholds are data-contract values, not tunable controls in the interface. Stage 3 exposes the underlying counts, dates, source post IDs, numerators, denominators, and unavailable reasons used by the UI.
+
+### Data limitations
+
+> [!IMPORTANT]
+> The results are observational within one selected cohort. “First observed” does not mean “originated,” later adoption does not establish influence or causation, and no result is a prediction or guarantee.
+
+- Activity outside the fixed observation window is not represented, so earlier uses may be missing.
+- Public engagement values are collection-time snapshots and may differ from current values on X.
+- Three primary-roster creators have blocked or unavailable collection states; no replacement identities were inserted.
+- Posts younger than seven days can contribute adoption evidence but not performance comparisons.
+- Approximate timestamps preserve their recorded precision; tied order timestamps share an adoption position.
+- All quote counts in the primary snapshot are unavailable. Amplification counts and rates that require them remain unavailable rather than becoming zero.
+- Pattern-level medians are withheld when fewer than two qualifying first-use posts are available.
+
+## Accessibility and interaction
+
+- Semantic headings, landmarks, definition lists, ordered event lists, labeled controls, and descriptive external links.
+- Native selects for filtering and sorting, and native buttons for every adoption event.
+- Visible focus states and non-color selected states throughout the interface.
+- Arrow-key, Home, and End navigation across timeline dots and textual events; Enter selects an event and Escape clears it.
+- Hover and focus evidence cards on wider screens, plus a persistent selected-event summary for keyboard and touch use.
+- A complete textual timeline remains the authoritative accessible equivalent of the visual timeline.
+- Responsive layouts avoid page-level horizontal overflow, and `prefers-reduced-motion` disables the animated dither background and transitions.
+
+## Project structure
 
 ```text
-socap_assignment/
-├── src/
-│   ├── main.mjs          # Two-screen application UI (Radar Overview & Pattern Detail)
-│   ├── analysis.mjs      # Deterministic analysis engine (baselines, lift, lifecycle)
-│   ├── ui-model.mjs      # URL routing, sorting, filtering, and metric presentation
-│   ├── styles.css        # Responsive editorial theme & typography
-│   └── dither.mjs        # Retro Bayer dither background with reduced-motion support
-├── data/
-│   ├── demo-data.json    # Preserved original snapshot (30 creators, 1,074 posts)
-│   ├── demo-data.expanded.json       # Preserved non-primary sensitivity snapshot (60 creators)
-│   ├── x-creators.json   # Base creator cohort metadata
-│   ├── x-posts.raw.json  # Raw collected post snapshot records
-│   ├── demo-data.expansion.json      # Preserved expansion snapshot (30 creators, 982 posts)
-│   ├── x-creators.expansion.json    # Expansion creator cohort metadata
-│   └── x-posts.expansion.raw.json   # Raw expansion snapshot records
-├── scripts/
-│   ├── test-stage3.mjs               # Deterministic fixture tests for analysis engine
-│   ├── test-stage4.mjs               # UI model, sorting, filtering, and routing tests
-│   ├── validate-stage2.mjs           # Integrity check for source datasets and review ledgers
-│   ├── validate-stage5.mjs           # Expanded snapshot, source-fact, and disjointness checks
-│   ├── build-expanded-dataset.mjs    # Deterministically rebuilds the derived snapshot
-│   ├── review-and-build-stage2.mjs   # Dataset assembly and manual review script
-│   └── suggest-labels.mjs            # TypeSafe AI labeling assistant
-├── planning/             # Specifications, stage contracts, and progress tracking
-├── research/             # Metric taxonomy, creator consistency, and literature index
-├── public/fonts/         # Self-hosted typography (Inter & Playfair Display)
-└── tmp/                  # Audit ledgers and label suggestions from Stage 2
+.
+├── data/       frozen primary, expansion, combined, roster, and raw-post artifacts
+├── planning/   stage contracts, implementation notes, and product specifications
+├── public/     self-hosted Inter and Playfair Display font files and licenses
+├── research/   metric research, source index, evaluation notes, and open questions
+├── scripts/    dataset builders, validators, labeling support, and deterministic tests
+├── src/        analysis engine, UI model, renderer, timeline interactions, and styles
+├── tmp/        preserved labeling suggestions and review ledgers
+├── index.html  Vite application entry point
+└── package.json
 ```
 
----
+| File | Responsibility |
+| --- | --- |
+| [`src/main.mjs`](./src/main.mjs) | Renders the radar and pattern-detail screens and binds route-level UI behavior. |
+| [`src/analysis.mjs`](./src/analysis.mjs) | Validates datasets and computes baselines, performance, adoption, lifecycle, and evidence quality. |
+| [`src/ui-model.mjs`](./src/ui-model.mjs) | Owns hash routes, filter state, deterministic sorting, display copy, and representative-post selection. |
+| [`src/timeline.mjs`](./src/timeline.mjs) | Formats timeline evidence and synchronizes dot, summary, and textual-list interactions. |
+| [`src/styles.css`](./src/styles.css) | Defines the responsive paper-and-ink visual system and accessibility states. |
+| [`src/dither.mjs`](./src/dither.mjs) | Draws the background texture while respecting reduced-motion preferences. |
 
-## Quick Start
+## Local setup
 
-### Prerequisites
+### Requirements
 
-- **Node.js** 20.19+ or 22.12+
-- **npm**
-
-### Installation
+- Node.js `20.19.x` or `22.12+`
+- npm
 
 ```bash
+git clone https://github.com/ActiveAngrily/virality-tracker.git
+cd virality-tracker
 npm ci
-```
-
-### Local Development
-
-Start the local Vite development server:
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Open [http://localhost:5173/#/radar](http://localhost:5173/#/radar). The interface does not require environment variables or a network request to analyze the bundled primary snapshot.
 
-### Production Build & Preview
+## Available npm scripts
 
-```bash
-npm run build
-npm run preview
-```
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Starts the Vite development server. |
+| `npm run build` | Creates a production bundle in `dist/`. |
+| `npm run preview` | Serves the production bundle locally for review. |
+| `npm test` | Runs the Stage 3, Stage 4, and Stage 5 Node test files. |
+| `npm run validate` | Validates the labeled source artifacts, review ledgers, frozen thresholds, source facts, and combined sensitivity dataset. |
+| `npm run data:build` | Rebuilds `data/demo-data.expanded.json` from the preserved primary and expansion artifacts. |
 
-### Running Tests & Validation
+## Testing and build
 
-Run unit tests covering the deterministic analysis engine and UI model:
+Run the deterministic test suite and production build:
 
 ```bash
 npm test
+npm run build
 ```
 
-Validate the primary snapshot and preserved sensitivity artifacts:
+Run the separate artifact validation pass when source or derived data changes:
 
 ```bash
 npm run validate
 ```
 
-Rebuild the non-primary sensitivity snapshot only when either preserved source artifact changes:
+The tests cover dataset validation, frozen Stage 3 calculations, source traceability, routing, filtering, sorting, representative-post selection, tied timestamps, timeline labels and selection state, keyboard behavior, reduced motion, and primary-versus-expansion separation.
 
-```bash
-npm run data:build
-```
+## Data and source notes
 
-## Dataset snapshots
+| Artifact | Role |
+| --- | --- |
+| [`data/demo-data.json`](./data/demo-data.json) | Primary application snapshot: 30 creators and 1,074 posts. |
+| [`data/demo-data.expansion.json`](./data/demo-data.expansion.json) | Separate 30-creator expansion snapshot with 982 posts; not loaded by the UI. |
+| [`data/demo-data.expanded.json`](./data/demo-data.expanded.json) | Preserved 60-creator, 2,056-post sensitivity artifact; validated separately and not loaded by the UI. |
+| [`data/x-creators.json`](./data/x-creators.json) and [`data/x-creators.expansion.json`](./data/x-creators.expansion.json) | Frozen creator rosters for the primary and expansion cohorts. |
+| [`data/x-posts.raw.json`](./data/x-posts.raw.json) and [`data/x-posts.expansion.raw.json`](./data/x-posts.expansion.raw.json) | Preserved source snapshots used to verify post-level facts. |
+| [`tmp/jev-label-review-all.json`](./tmp/jev-label-review-all.json) | Completed review ledger for the combined labeled records. |
 
-- `data/demo-data.json` is the application’s primary original 30-creator snapshot: 1,074 posts, collected through `2026-09-20T20:24:56Z`.
-- `data/demo-data.expansion.json` is the retained, separate 30-creator expansion snapshot: 982 posts, collected through `2026-09-20T20:57:12Z`.
-- `data/demo-data.expanded.json` is the preserved 60-creator sensitivity snapshot: 2,056 posts. It is validated separately and is not loaded by the application.
+All three demo datasets use schema `vfr-x-schema-1.0`, codebook `vfr-x-codebook-1.0`, thresholds `vfr-x-thresholds-1.0`, and the same fixed analysis date. The expansion artifacts exist for sensitivity work; they are deliberately kept out of the product’s primary data flow.
 
-All three use schema `vfr-x-schema-1.0`, codebook `vfr-x-codebook-1.0`, thresholds `vfr-x-thresholds-1.0`, and analysis date `2026-09-21T12:00:00Z`. Under those frozen rules, the primary snapshot has 3 Validated patterns and 4 validated early-capture events; the expanded sensitivity analysis has 0 Validated patterns.
+For the research rationale and implementation record, start with [`research/00-research-index.md`](./research/00-research-index.md) and [`planning/implementation-progress.md`](./planning/implementation-progress.md).
 
-## Two-screen demo
+## Project status
 
-1. Open `#/radar` and note the “original 30-creator snapshot” label, lifecycle summary, filters, and cohort context.
-2. Open any pattern card to visit `#/pattern/<pattern-id>`.
-3. Review its adoption timeline, creator-relative view lift, source-post evidence, and limitations; use “back to radar” to confirm filter state is retained.
-
----
-
-## Architecture & Design Principles
-
-- **Deterministic & Local**: All application metrics execute synchronously in memory from the frozen original dataset with no cloud, database, or runtime network dependency.
-- **Pure Web Standards**: Built with modern vanilla ES Modules, native DOM manipulation, and responsive CSS with CSS custom properties.
-- **Honest Metrics**: Avoids opaque virality scores. Clearly highlights when data is limited, baseline sample sizes are provisional, or quote counts are unavailable.
-- **Accessible**: Semantic landmarks, keyboard navigation, visible focus, textual timeline equivalents, non-color state labels, responsive layout, and automatic canvas suspension for `prefers-reduced-motion`.
-
-## Limits
-
-This is one selected, fixed cohort—not a platform-wide sample. Counts were captured at different post ages, all quote counts are unavailable, and missing values remain `null`. Young posts can contribute adoption evidence but cannot contribute performance metrics. “First observed” is bounded by the observation window and does not establish origin or causation; results are descriptive, not predictive or guaranteed.
+All five planned stages are marked complete in the repository’s implementation record. The current artifact is a review-ready, local research proof of concept built around the frozen original 30-creator snapshot; it is not a live monitoring or prediction service.
