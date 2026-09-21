@@ -84,6 +84,16 @@ const externalSource = (url, creatorName) => {
 
 const shell = (content) => `<div class="content-canvas">${content}</div>`;
 
+const headerMeta = `<div class="hero-meta">
+  <span>anant jamuar · independent research</span>
+  <span class="hero-meta__links">
+    <a href="https://anantjamuar.me" target="_blank" rel="noopener noreferrer">anantjamuar.me <span aria-hidden="true">↗</span></a>
+    <a class="github-mark" href="https://github.com/ActiveAngrily/virality-tracker" target="_blank" rel="noopener noreferrer" aria-label="view project source on GitHub">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.87c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.82a9.6 9.6 0 0 1 2.5.34c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.77c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+    </a>
+  </span>
+</div>`;
+
 const contextPanel = () => {
   const metadata = dataset.metadata;
   return `
@@ -188,7 +198,7 @@ const renderRadar = (rawState) => {
   return shell(`
     <main id="main-content" class="page-shell radar-page">
       <section class="page-heading">
-        <div class="hero-meta"><span>anant jamuar · independent research</span><a href="https://anantjamuar.me" target="_blank" rel="noopener noreferrer">anantjamuar.me <span aria-hidden="true">↗</span></a></div>
+        ${headerMeta}
         <h1 tabindex="-1">virality tracker<br><em>a closer look at what spreads</em></h1>
         <p>explore recurring formats and hooks observed in the original cohort of ${analysis.summary.analyzed_creator_count} public X creators and ${formatNumber(analysis.summary.analyzed_post_count)} posts.</p>
         <a class="hero-action" href="#reading-guide-heading">how to read the radar <span aria-hidden="true">↘</span></a>
@@ -440,6 +450,7 @@ const renderDetail = (patternId, rawState) => {
     <main id="main-content" class="page-shell research-page">
       <a class="back-link" href="${radarHash(state)}">← back to radar</a>
       <section class="detail-heading">
+        ${headerMeta}
         <p class="eyebrow">original 30-creator snapshot · research note · ${escapeHtml(pattern.identity.pattern_type)}${family ? ` · ${escapeHtml(lowerText(family.name))}` : ""}</p>
         <h1 tabindex="-1">${escapeHtml(lowerText(pattern.identity.pattern_name))}</h1>
         <p class="pattern-kicker">${patternTypeLabel(pattern.identity.pattern_type)}</p>
