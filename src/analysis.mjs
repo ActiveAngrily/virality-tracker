@@ -403,7 +403,14 @@ const analyzePattern = ({ definition, dimension, posts, postEvidence, thresholds
 export function analyzeDataset(dataset) {
   const validationSummary = validateDataset(dataset);
   const thresholds = dataset.thresholds;
-  const creatorPosts = Map.groupBy(dataset.posts, (post) => post.creator_id);
+  const creatorPosts = typeof Map.groupBy === "function"
+    ? Map.groupBy(dataset.posts, (post) => post.creator_id)
+    : dataset.posts.reduce((map, post) => {
+        const list = map.get(post.creator_id);
+        if (list) list.push(post);
+        else map.set(post.creator_id, [post]);
+        return map;
+      }, new Map());
   const postEvidence = new Map();
   for (const post of dataset.posts) {
     postEvidence.set(post.post_id, calculatePostEvidence(post, creatorPosts.get(post.creator_id) || [], thresholds));
