@@ -1,6 +1,6 @@
 # Viral Format Radar — Implementation Progress
 
-> Overall status: all five stages complete; expanded snapshot frozen
+> Overall status: all five stages complete; original snapshot restored as primary
 >
 > Updated: 2026-09-22
 >
@@ -30,7 +30,7 @@ No stage begins before the preceding stage satisfies its exit criteria.
 | 2. Collect and prepare X dataset | [`stage-2-x-dataset-collection.md`](./stage-2-x-dataset-collection.md) | Complete | 1,074 labeled base posts plus 982 labeled expansion posts; validated demo artifacts | Stage 1 complete |
 | 3. Build and verify analysis engine | [`stage-3-analysis-engine.md`](./stage-3-analysis-engine.md) | Complete | Verified deterministic analysis module | Stage 2 complete |
 | 4. Build product interface | [`stage-4-product-interface.md`](./stage-4-product-interface.md) | Complete | Functional two-screen local web app with research-led visual system | Stage 3 complete |
-| 5. Integrate, audit, and package | [`stage-5-integrate-audit-package.md`](./stage-5-integrate-audit-package.md) | Complete | Review-ready frozen 60-creator proof of concept | Stage 4 complete |
+| 5. Integrate, audit, and package | [`stage-5-integrate-audit-package.md`](./stage-5-integrate-audit-package.md) | Complete | Review-ready frozen 30-creator proof of concept with separate sensitivity artifacts | Stage 4 complete |
 
 ## Status definitions
 
@@ -44,12 +44,12 @@ No stage begins before the preceding stage satisfies its exit criteria.
 
 - Product: Viral Format Radar.
 - Platform: X only.
-- Cohort: preserved original 30-creator snapshot plus the approved, disjoint
-  30-creator expansion; the app uses a derived 60-creator snapshot.
+- Cohort: the app uses the original 30-creator snapshot; the disjoint
+  30-creator expansion is retained separately for sensitivity analysis.
 - Sample: up to 50 contiguous recent original posts per creator.
 - Collection: one-time Codex browser control through the rendered X UI.
-- Dataset: preserved base and expansion artifacts plus one frozen derived local
-  application dataset.
+- Dataset: `data/demo-data.json` is the primary application input; the expansion
+  and combined 60-creator artifacts are preserved, non-primary sensitivity data.
 - Primary metric: public views captured at the fixed collection snapshot.
 - Spread evidence: public repost-plus-quote amplification and amplification
   rate; likes and replies are supporting context.
@@ -290,6 +290,7 @@ No stage begins before the preceding stage satisfies its exit criteria.
 | 2026-09-21 | Stage 3 analysis engine | Implemented and verified deterministic base-cohort validation, baselines, view lift, amplification, adoption, lifecycle, evidence quality, and repeat evidence without merging the expansion cohort | `src/analysis.mjs`, `scripts/test-stage3.mjs`; `npm test` passes |
 | 2026-09-21 | Stage 4 product interface | Built and browser-verified the two-screen local Radar interface with native hash state, deterministic controls, complete evidence detail, responsive styling, accessible timelines, and explicit unavailable states | `index.html`, `src/main.mjs`, `src/ui-model.mjs`, `src/styles.css`, `scripts/test-stage4.mjs`; 8 tests and production build pass |
 | 2026-09-22 | Stage 5 expanded integration | Validated disjoint source cohorts, built and froze the 60-creator derived snapshot, moved the app to it, fixed young-post performance eligibility, traced displayed values, completed accessibility/runtime/copy audits, and packaged reproducible validation and setup | `data/demo-data.expanded.json`, Stage 5 tests/validator, browser checks, clean install, production build |
+| 2026-09-22 | Stage 5 reopened | Restored the original 30-creator, 1,074-post snapshot as the sole application input; retained the expansion and combined artifacts as non-primary sensitivity cohorts. Primary analysis returned 3 Validated patterns and 4 validated early-capture events; the 60-creator sensitivity result remained at 0 Validated patterns | `data/demo-data.json`, Stage 5 tests/validator, browser checks, clean install, production build |
 
 ## Reopening rule
 

@@ -1,4 +1,4 @@
-import dataset from "../data/demo-data.expanded.json";
+import dataset from "../data/demo-data.json";
 import { analyzeDataset } from "./analysis.mjs";
 import {
   detailHash,
@@ -88,7 +88,7 @@ const contextPanel = () => {
   return `
     <section id="methods" class="context-panel" aria-labelledby="context-heading">
       <div class="section-heading section-heading--compact">
-        <p class="eyebrow">expanded 60-creator snapshot</p>
+        <p class="eyebrow">original 30-creator snapshot</p>
         <h2 id="context-heading">fixed research context</h2>
       </div>
       <dl class="context-grid">
@@ -101,7 +101,7 @@ const contextPanel = () => {
         <div><dt>codebook version</dt><dd>${escapeHtml(metadata.codebook_version)}</dd></div>
         <div><dt>threshold version</dt><dd>${escapeHtml(metadata.threshold_version)}</dd></div>
       </dl>
-      <p class="context-limitation"><strong>scope:</strong> this expanded 60-creator snapshot combines the preserved original 30-creator snapshot with 30 additional creators. it remains one selected cohort and doesn’t show who originated a pattern, what caused it, or what will happen next.</p>
+      <p class="context-limitation"><strong>scope:</strong> this is the original 30-creator snapshot with ${formatNumber(analysis.summary.analyzed_post_count)} posts. the separate expansion cohort isn’t loaded. this selected cohort doesn’t show who originated a pattern, what caused it, or what will happen next.</p>
     </section>`;
 };
 
@@ -187,9 +187,9 @@ const renderRadar = (rawState) => {
   return shell(`
     <main id="main-content" class="page-shell radar-page">
       <section class="page-heading">
-        <div class="hero-meta"><span>expanded 60-creator snapshot</span><span>${formatDate(dataset.metadata.analysis_as_of_utc)}</span></div>
+        <div class="hero-meta"><span>original 30-creator snapshot</span><span>${formatDate(dataset.metadata.analysis_as_of_utc)}</span></div>
         <h1 tabindex="-1">virality tracker<br><em>a closer look at what spreads</em></h1>
-        <p>explore recurring formats and hooks observed in this expanded cohort of ${analysis.summary.analyzed_creator_count} public X creators.</p>
+        <p>explore recurring formats and hooks observed in the original cohort of ${analysis.summary.analyzed_creator_count} public X creators and ${formatNumber(analysis.summary.analyzed_post_count)} posts.</p>
         <a class="hero-action" href="#reading-guide-heading">how to read the radar <span aria-hidden="true">↘</span></a>
       </section>
       <section class="reading-guide" aria-labelledby="reading-guide-heading">
@@ -376,7 +376,7 @@ const limitations = (pattern) => {
         <h2 id="limitations-heading">limits of the data</h2>
       </div>
       <ul>
-        <li><strong>expanded selected cohort:</strong> here’s what we observed among ${analysis.summary.analyzed_creator_count} public creators. it combines the preserved original 30-creator snapshot with 30 additional creators and doesn’t describe all of X.</li>
+        <li><strong>one selected cohort:</strong> here’s what we observed among the original ${analysis.summary.analyzed_creator_count} public creators and ${formatNumber(analysis.summary.analyzed_post_count)} posts. the separate expansion cohort isn’t loaded, and this snapshot doesn’t describe all of X.</li>
         <li><strong>performance sample:</strong> median view lift uses ${plural(metrics.view_lift_sample_size, "qualifying first post")}. fewer than ${dataset.thresholds.minimum_pattern_metric_sample} qualifying posts means the median is unavailable. keep the small sample in mind.</li>
         <li><strong>baseline limits:</strong> each post is compared with up to ${dataset.thresholds.baseline_history_cap} earlier posts from the same creator. a provisional baseline has less history; missing or zero baselines can’t support a view-lift comparison.</li>
         <li><strong>missing counts:</strong> repost or quote counts weren’t available for some posts. amplification is unavailable if either count is missing; missing values never become zero.</li>
@@ -408,7 +408,7 @@ const renderDetail = (patternId, rawState) => {
     <main id="main-content" class="page-shell research-page">
       <a class="back-link" href="${radarHash(state)}">← back to radar</a>
       <section class="detail-heading">
-        <p class="eyebrow">expanded 60-creator snapshot · research note · ${escapeHtml(pattern.identity.pattern_type)}${family ? ` · ${escapeHtml(lowerText(family.name))}` : ""}</p>
+        <p class="eyebrow">original 30-creator snapshot · research note · ${escapeHtml(pattern.identity.pattern_type)}${family ? ` · ${escapeHtml(lowerText(family.name))}` : ""}</p>
         <h1 tabindex="-1">${escapeHtml(lowerText(pattern.identity.pattern_name))}</h1>
         <p class="pattern-kicker">${patternTypeLabel(pattern.identity.pattern_type)}</p>
         ${patternExplanation(pattern)}

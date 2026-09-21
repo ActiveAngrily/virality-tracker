@@ -1,6 +1,6 @@
 # Viral Format Radar
 
-A local research proof of concept for reviewing formats and hooks observed in a fixed, expanded cohort of 60 X creators. It reports creator-relative view lift and later adoption without black-box scores or causal claims.
+A local research proof of concept for reviewing formats and hooks observed in the original fixed cohort of 30 X creators. It reports creator-relative view lift and later adoption without black-box scores or causal claims.
 
 ---
 
@@ -27,7 +27,7 @@ socap_assignment/
 │   └── dither.mjs        # Retro Bayer dither background with reduced-motion support
 ├── data/
 │   ├── demo-data.json    # Preserved original snapshot (30 creators, 1,074 posts)
-│   ├── demo-data.expanded.json       # Shipped derived snapshot (60 creators, 2,056 posts)
+│   ├── demo-data.expanded.json       # Preserved non-primary sensitivity snapshot (60 creators)
 │   ├── x-creators.json   # Base creator cohort metadata
 │   ├── x-posts.raw.json  # Raw collected post snapshot records
 │   ├── demo-data.expansion.json      # Preserved expansion snapshot (30 creators, 982 posts)
@@ -87,13 +87,13 @@ Run unit tests covering the deterministic analysis engine and UI model:
 npm test
 ```
 
-Validate both preserved source snapshots and the derived expanded snapshot:
+Validate the primary snapshot and preserved sensitivity artifacts:
 
 ```bash
 npm run validate
 ```
 
-Rebuild the derived snapshot only when either preserved source artifact changes:
+Rebuild the non-primary sensitivity snapshot only when either preserved source artifact changes:
 
 ```bash
 npm run data:build
@@ -101,15 +101,15 @@ npm run data:build
 
 ## Dataset snapshots
 
-- `data/demo-data.json` is the recoverable original 30-creator snapshot: 1,074 posts, collected through `2026-09-20T20:24:56Z`.
-- `data/demo-data.expansion.json` is the separate 30-creator expansion snapshot: 982 posts, collected through `2026-09-20T20:57:12Z`.
-- `data/demo-data.expanded.json` is the deterministic combined application input: exactly 60 creators and 2,056 posts. The app imports this file locally; it makes no dataset network request.
+- `data/demo-data.json` is the application’s primary original 30-creator snapshot: 1,074 posts, collected through `2026-09-20T20:24:56Z`.
+- `data/demo-data.expansion.json` is the retained, separate 30-creator expansion snapshot: 982 posts, collected through `2026-09-20T20:57:12Z`.
+- `data/demo-data.expanded.json` is the preserved 60-creator sensitivity snapshot: 2,056 posts. It is validated separately and is not loaded by the application.
 
-All three use schema `vfr-x-schema-1.0`, codebook `vfr-x-codebook-1.0`, thresholds `vfr-x-thresholds-1.0`, and analysis date `2026-09-21T12:00:00Z`. The original snapshot is not overwritten.
+All three use schema `vfr-x-schema-1.0`, codebook `vfr-x-codebook-1.0`, thresholds `vfr-x-thresholds-1.0`, and analysis date `2026-09-21T12:00:00Z`. Under those frozen rules, the primary snapshot has 3 Validated patterns and 4 validated early-capture events; the expanded sensitivity analysis has 0 Validated patterns.
 
 ## Two-screen demo
 
-1. Open `#/radar` and note the “expanded 60-creator snapshot” label, lifecycle summary, filters, and cohort context.
+1. Open `#/radar` and note the “original 30-creator snapshot” label, lifecycle summary, filters, and cohort context.
 2. Open any pattern card to visit `#/pattern/<pattern-id>`.
 3. Review its adoption timeline, creator-relative view lift, source-post evidence, and limitations; use “back to radar” to confirm filter state is retained.
 
@@ -117,7 +117,7 @@ All three use schema `vfr-x-schema-1.0`, codebook `vfr-x-codebook-1.0`, threshol
 
 ## Architecture & Design Principles
 
-- **Deterministic & Local**: All metric calculations execute synchronously in memory from the frozen expanded dataset with no cloud, database, or runtime network dependency.
+- **Deterministic & Local**: All application metrics execute synchronously in memory from the frozen original dataset with no cloud, database, or runtime network dependency.
 - **Pure Web Standards**: Built with modern vanilla ES Modules, native DOM manipulation, and responsive CSS with CSS custom properties.
 - **Honest Metrics**: Avoids opaque virality scores. Clearly highlights when data is limited, baseline sample sizes are provisional, or quote counts are unavailable.
 - **Accessible**: Semantic landmarks, keyboard navigation, visible focus, textual timeline equivalents, non-color state labels, responsive layout, and automatic canvas suspension for `prefers-reduced-motion`.

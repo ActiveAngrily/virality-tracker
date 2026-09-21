@@ -5,8 +5,10 @@ import test from "node:test";
 import { analyzeDataset } from "../src/analysis.mjs";
 import { filterAndSortPatterns, representativePosts } from "../src/ui-model.mjs";
 
-const dataset = JSON.parse(await readFile(new URL("../data/demo-data.expanded.json", import.meta.url), "utf8"));
+const dataset = JSON.parse(await readFile(new URL("../data/demo-data.json", import.meta.url), "utf8"));
+const sensitivityDataset = JSON.parse(await readFile(new URL("../data/demo-data.expanded.json", import.meta.url), "utf8"));
 const analysis = analyzeDataset(dataset);
+const sensitivityAnalysis = analyzeDataset(sensitivityDataset);
 const postById = new Map(dataset.posts.map((post) => [post.post_id, post]));
 const creatorById = new Map(dataset.creators.map((creator) => [creator.creator_id, creator]));
 const DAY_MS = 86_400_000;
@@ -17,16 +19,16 @@ const median = (values) => {
   return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
 };
 
-test("expanded snapshot is deterministic and uses all 60 creators", () => {
+test("primary snapshot is deterministic and uses only the original 30 creators", () => {
   assert.deepEqual(analyzeDataset(dataset), analysis);
-  assert.equal(analysis.analysis_context.source_artifact_name, "demo-data.expanded");
-  assert.equal(analysis.analysis_context.expansion_dataset_included, true);
-  assert.equal(analysis.summary.analyzed_creator_count, 60);
-  assert.equal(analysis.summary.analyzed_post_count, 2056);
+  assert.equal(analysis.analysis_context.source_artifact_name, "demo-data");
+  assert.equal(analysis.analysis_context.expansion_dataset_included, false);
+  assert.equal(analysis.summary.analyzed_creator_count, 30);
+  assert.equal(analysis.summary.analyzed_post_count, 1074);
   assert.equal(analysis.validation_summary.maximum_posts_per_creator, 50);
 });
 
-test("every displayed pattern value traces to expanded source records", () => {
+test("every displayed pattern value traces to primary source records", () => {
   const asOf = Date.parse(dataset.metadata.analysis_as_of_utc);
   const recentStart = asOf - dataset.thresholds.recent_window_days * DAY_MS;
   for (const pattern of analysis.patterns) {
@@ -75,23 +77,26 @@ test("every displayed pattern value traces to expanded source records", () => {
   }
 });
 
-test("representative manual calculations and expanded-cohort states stay frozen", () => {
+test("representative primary calculations and sensitivity result stay frozen", () => {
   const eventFor = (patternId, creatorId) => analysis.patterns
     .find((pattern) => pattern.identity.pattern_id === patternId)
     .creator_evidence.find((event) => event.creator_id === creatorId);
   const supported = eventFor("FP-01", "CR-027");
-  const provisional = eventFor("FP-03", "EX-028");
-  const limited = eventFor("FP-02", "EX-028");
-  const nearThreshold = eventFor("FP-07", "EX-033");
+  const provisional = eventFor("FP-04", "CR-008");
+  const limited = eventFor("FP-03", "CR-026");
+  const nearThreshold = eventFor("HP-06", "CR-008");
 
   assert.deepEqual([supported.performance.baseline_prior_count, supported.performance.baseline, supported.performance.view_lift], [19, 55_572, 277_840 / 55_572]);
-  assert.deepEqual([provisional.performance.baseline_quality, provisional.performance.baseline_prior_count, provisional.performance.baseline], ["Provisional", 9, 14_790]);
-  assert.deepEqual([limited.performance.baseline_quality, limited.performance.baseline_prior_count, limited.performance.view_lift], ["Limited", 4, null]);
-  assert.equal(nearThreshold.performance.view_lift, 37_335 / 25_187);
+  assert.deepEqual([provisional.performance.baseline_quality, provisional.performance.baseline_prior_count, provisional.performance.baseline], ["Provisional", 5, 1_052]);
+  assert.deepEqual([limited.performance.baseline_quality, limited.performance.baseline_prior_count, limited.performance.view_lift], ["Limited", 0, null]);
+  assert.equal(nearThreshold.performance.view_lift, 1_633 / 1_113);
   assert.equal(nearThreshold.performance.supported_breakout, false);
-  assert.deepEqual(analysis.summary.lifecycle_counts, { Emerging: 13 });
+  assert.deepEqual(analysis.summary.lifecycle_counts, { Emerging: 10, Validated: 3 });
   assert.deepEqual(analysis.summary.evidence_quality_counts, { Supported: 13 });
-  assert.equal(analysis.summary.validated_early_capture_count, 0);
+  assert.equal(analysis.summary.validated_early_capture_count, 4);
+  assert.equal(sensitivityAnalysis.summary.analyzed_creator_count, 60);
+  assert.equal(sensitivityAnalysis.summary.validated_early_capture_count, 0);
+  assert.deepEqual(sensitivityAnalysis.summary.lifecycle_counts, { Emerging: 13 });
   assert.ok(analysis.patterns.flatMap((pattern) => pattern.creator_evidence).filter((event) => event.performance.view_lift_unavailable_reason === "post_too_young")
     .every((event) => event.performance.amplifications === null && event.performance.amplification_rate === null));
   assert.equal(filterAndSortPatterns(analysis.patterns, { lifecycle: "Fading" }).length, 0);
