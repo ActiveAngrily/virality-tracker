@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import {
@@ -12,6 +13,7 @@ import {
   timelinePosition,
   unavailableReason,
 } from "../src/ui-model.mjs";
+import { bindAdoptionTimeline, nextTimelineIndex, timelineEventView, timelineLanes } from "../src/timeline.mjs";
 
 const makePattern = ({
   id,
@@ -121,6 +123,103 @@ test("timeline coordinates preserve tied Stage 3 order times", () => {
     timelinePosition(event, "2026-09-01T00:00:00Z", "2026-09-21T00:00:00Z"),
     timelinePosition({ ...event }, "2026-09-01T00:00:00Z", "2026-09-21T00:00:00Z"),
   );
+});
+
+test("timeline event labels use only creator evidence and cover limited states", () => {
+  const view = timelineEventView({
+    creator_id: "C1",
+    first_adoption_at_utc: "2026-09-10T00:00:00Z",
+    first_adoption_precision: "day",
+    adoption_rank: 1,
+    adoption_percentile: null,
+    early_adopter: false,
+    later_adopter_count: 0,
+  }, { creator_name: "Ada Example", creator_handle: "@ada" });
+  assert.equal(view.label, "Ada Example, @ada; first observed sep 10, 2026; adoption rank 1; later adopter; 0 later adopters");
+  assert.equal(view.observedLine, "sep 10, 2026 · approximate day precision");
+  assert.equal(view.rankLine, "rank 1 · percentile unavailable");
+  assert.equal(nextTimelineIndex("ArrowRight", 0, 1), 0);
+  assert.equal(nextTimelineIndex("ArrowLeft", 0, 0), null);
+  assert.deepEqual(timelineLanes([10, 10, 11, 20], 7.5), [0, 1, 2, 0]);
+});
+
+test("timeline selection keeps dot, summary, and list state matched", () => {
+  class ClassList {
+    values = new Set();
+    toggle(name, enabled) { enabled ? this.values.add(name) : this.values.delete(name); }
+    has(name) { return this.values.has(name); }
+  }
+  const node = (kind, index) => ({
+    kind,
+    index,
+    dataset: kind === "dot" ? { creator: `Creator ${index}`, details: `rank ${index + 1}` } : {},
+    classList: new ClassList(),
+    attributes: {},
+    hidden: true,
+    selectedLabel: kind === "item" ? { hidden: true } : null,
+    closest(selector) {
+      if (selector === "[data-timeline-dot]" && kind === "dot") return this;
+      if (selector === "[data-timeline-item]" && kind === "item") return this;
+      return null;
+    },
+    querySelector(selector) { return selector === "[data-selected-label]" ? this.selectedLabel : null; },
+    setAttribute(name, value) { this.attributes[name] = value; },
+    focus(options) { this.focusedWith = options || true; },
+    scrollIntoView(options) { this.scrolledWith = options; },
+  });
+  const dots = [node("dot", 0), node("dot", 1)];
+  const items = [node("item", 0), node("item", 1)];
+  const summaryName = { textContent: "no event selected" };
+  const summaryDetails = { textContent: "choose a dot" };
+  const listeners = new Map();
+  const section = {
+    querySelectorAll: (selector) => selector === "[data-timeline-dot]" ? dots : items,
+    querySelector: (selector) => selector === "[data-timeline-summary-name]" ? summaryName : summaryDetails,
+    addEventListener: (type, listener) => listeners.set(type, listener),
+    contains: (target) => [...dots, ...items].includes(target),
+  };
+  const fire = (type, values) => {
+    let prevented = false;
+    listeners.get(type)({ preventDefault: () => { prevented = true; }, relatedTarget: null, ...values });
+    return prevented;
+  };
+
+  bindAdoptionTimeline(section);
+  fire("click", { target: dots[1] });
+  assert.deepEqual(dots.map((dot) => dot.attributes["aria-pressed"]), ["false", "true"]);
+  assert.deepEqual(items.map((item) => item.classList.has("is-selected")), [false, true]);
+  assert.deepEqual(items.map((item) => item.selectedLabel.hidden), [true, false]);
+  assert.equal(summaryName.textContent, "Creator 1");
+  assert.equal(summaryDetails.textContent, "rank 2");
+  assert.deepEqual(items[1].focusedWith, { preventScroll: true });
+  assert.deepEqual(items[1].scrolledWith, { block: "nearest" });
+
+  fire("focusin", { target: items[0] });
+  assert.equal(dots[0].classList.has("is-corresponding"), true);
+  assert.equal(items[0].classList.has("is-corresponding"), true);
+  assert.equal(fire("keydown", { target: dots[0], key: "ArrowRight" }), true);
+  assert.equal(dots[1].focusedWith, true);
+  assert.equal(fire("keydown", { target: items[0], key: "End" }), true);
+  assert.equal(items[1].focusedWith, true);
+
+  assert.equal(fire("keydown", { target: items[1], key: "Escape" }), true);
+  assert.deepEqual(dots.map((dot) => dot.attributes["aria-pressed"]), ["false", "false"]);
+  assert.equal(summaryName.textContent, "no event selected");
+  assert.equal(summaryDetails.textContent, "choose a dot");
+});
+
+test("timeline markup and CSS expose native, hover, focus, narrow, and reduced-motion states", async () => {
+  const [main, styles] = await Promise.all([
+    readFile(new URL("../src/main.mjs", import.meta.url), "utf8"),
+    readFile(new URL("../src/styles.css", import.meta.url), "utf8"),
+  ]);
+  assert.match(main, /<button[\s\S]*?data-timeline-dot/);
+  assert.match(main, /aria-label="\$\{escapeHtml\(view\.label\)\}"/);
+  assert.match(main, /no observed creator events are available/);
+  assert.match(styles, /\.timeline-dot:hover \.timeline-tooltip/);
+  assert.match(styles, /\.timeline-dot:focus-visible \.timeline-tooltip/);
+  assert.match(styles, /@media \(max-width: 560px\)[\s\S]*?\.timeline-tooltip \{ display: none; \}/);
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.timeline-dot, \.timeline-tooltip \{ transition: none; \}/);
 });
 
 test("signal ties follow Stage 3 first-observed chronology without changing the input", () => {

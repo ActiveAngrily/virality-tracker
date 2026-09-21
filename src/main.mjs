@@ -15,6 +15,7 @@ import {
 } from "./ui-model.mjs";
 import "./styles.css";
 import { drawDitherBackground } from "./dither.mjs";
+import { bindAdoptionTimeline, timelineEventView, timelineLanes } from "./timeline.mjs";
 
 const analysis = analyzeDataset(dataset);
 const app = document.querySelector("#app");
@@ -183,11 +184,11 @@ const renderRadar = (rawState) => {
   const patterns = filterAndSortPatterns(analysis.patterns, state);
   const counts = analysis.summary.lifecycle_counts;
   const strongPatterns = selectStrongSignals(analysis.patterns, 3);
-  document.title = "radar · viral format radar";
+  document.title = "virality tracker";
   return shell(`
     <main id="main-content" class="page-shell radar-page">
       <section class="page-heading">
-        <div class="hero-meta"><span>original 30-creator snapshot</span><span>${formatDate(dataset.metadata.analysis_as_of_utc)}</span></div>
+        <div class="hero-meta"><span>anant jamuar · independent research</span><a href="https://anantjamuar.me" target="_blank" rel="noopener noreferrer">anantjamuar.me <span aria-hidden="true">↗</span></a></div>
         <h1 tabindex="-1">virality tracker<br><em>a closer look at what spreads</em></h1>
         <p>explore recurring formats and hooks observed in the original cohort of ${analysis.summary.analyzed_creator_count} public X creators and ${formatNumber(analysis.summary.analyzed_post_count)} posts.</p>
         <a class="hero-action" href="#reading-guide-heading">how to read the radar <span aria-hidden="true">↘</span></a>
@@ -272,6 +273,16 @@ const renderRadar = (rawState) => {
 const adoptionTimeline = (pattern) => {
   const recentIds = new Set(pattern.adoption_metrics.recent_adopter_creator_ids);
   const events = pattern.creator_evidence;
+  const positions = events.map((event) => timelinePosition(event, analysis.analysis_context.observed_from_utc, analysis.analysis_context.observed_to_utc));
+  const wideLanes = timelineLanes(positions, 2);
+  const narrowLanes = timelineLanes(positions, 7.5);
+  const timelineEvents = events.map((event, index) => {
+    const creator = creatorsById.get(event.creator_id);
+    const view = timelineEventView(event, creator);
+    return { event, index, creator, view, position: positions[index], wideLane: wideLanes[index], narrowLane: narrowLanes[index] };
+  });
+  const maximumWideLane = Math.max(0, ...wideLanes);
+  const maximumNarrowLane = Math.max(0, ...narrowLanes);
   return `
     <section id="spread" aria-labelledby="timeline-heading">
       <div class="section-heading">
@@ -279,17 +290,38 @@ const adoptionTimeline = (pattern) => {
         <h2 id="timeline-heading">adoption timeline</h2>
         <p>each dot marks the first observed use by a creator in this cohort. the complete event list follows the visual.</p>
       </div>
-      <div class="timeline-visual" aria-hidden="true">
+      <div class="timeline-visual" role="group" aria-label="interactive adoption timeline" style="--max-lane:${maximumWideLane};--max-narrow-lane:${maximumNarrowLane}">
         <span class="timeline-track"></span>
-        ${events.map((event) => `<span class="timeline-dot ${event.early_adopter ? "timeline-dot--early" : ""} ${recentIds.has(event.creator_id) ? "timeline-dot--recent" : ""}" style="--position:${timelinePosition(event, analysis.analysis_context.observed_from_utc, analysis.analysis_context.observed_to_utc).toFixed(3)}%"></span>`).join("")}
+        ${timelineEvents.map(({ event, index, view, position, wideLane, narrowLane }) => `<button
+          class="timeline-dot ${event.early_adopter ? "timeline-dot--early" : ""} ${recentIds.has(event.creator_id) ? "timeline-dot--recent" : ""} ${position > 62 ? "timeline-dot--tooltip-left" : ""}"
+          type="button"
+          style="--position:${position.toFixed(3)}%;--lane:${wideLane};--narrow-lane:${narrowLane}"
+          aria-label="${escapeHtml(view.label)}"
+          aria-describedby="timeline-tooltip-${index}"
+          aria-pressed="false"
+          data-timeline-dot
+          data-creator="${escapeHtml(view.creatorLine)}"
+          data-details="${escapeHtml(`${view.observedLine} · ${view.rankLine} · ${view.statusLine}`)}">
+          <span id="timeline-tooltip-${index}" class="timeline-tooltip" role="tooltip">
+            <strong>${escapeHtml(view.creatorLine)}</strong>
+            <span>${escapeHtml(view.observedLine)}</span>
+            <span>${escapeHtml(view.rankLine)}</span>
+            <span>${escapeHtml(view.statusLine)}</span>
+          </span>
+        </button>`).join("")}
+        ${events.length ? "" : `<p class="timeline-empty" role="status">no observed creator events are available for this pattern.</p>`}
+      </div>
+      <div id="timeline-selected-event" class="timeline-selection" aria-live="polite" aria-atomic="true">
+        <p class="timeline-selection__label">selected event</p>
+        <strong data-timeline-summary-name>no event selected</strong>
+        <p data-timeline-summary-details>${events.length ? "choose a dot to keep its details open." : "no observed creator events are available."}</p>
       </div>
       <div class="timeline-key" aria-hidden="true"><span><i></i>observed use</span><span><i class="early"></i>early adopter</span><span><i class="recent"></i>recent activity</span></div>
       <ol class="timeline-list">
-        ${events.map((event) => {
-          const creator = creatorsById.get(event.creator_id);
+        ${timelineEvents.map(({ event, index, creator }) => {
           const precision = event.first_adoption_precision === "exact_time" ? "exact timestamp" : `approximate ${event.first_adoption_precision} precision`;
-          return `<li>
-            <div><strong>${escapeHtml(creator?.creator_name || event.creator_id)}</strong> <span>${escapeHtml(creator?.creator_handle || "")}</span></div>
+          return `<li id="timeline-event-${index}" tabindex="0" data-timeline-item>
+            <div><strong>${escapeHtml(creator?.creator_name || event.creator_id)}</strong> <span>${escapeHtml(creator?.creator_handle || "")}</span> <span class="timeline-list__selected" data-selected-label hidden>selected event</span></div>
             <p><span class="tabular">${formatDate(event.first_adoption_at_utc)}</span> · ${escapeHtml(precision)} · rank ${event.adoption_rank} · ${event.adoption_percentile === null ? "percentile unavailable" : formatPercentile(event.adoption_percentile)}</p>
             <p>${event.adoption_order_at_utc === events[0].adoption_order_at_utc ? "first observed use · " : ""}${event.early_adopter ? "early adopter" : "later adopter"}${recentIds.has(event.creator_id) ? " · recent activity" : ""} · ${plural(event.later_adopter_count, "later adopter")}</p>
           </li>`;
@@ -394,7 +426,7 @@ const renderDetail = (patternId, rawState) => {
   const state = normalizeRadarState(rawState);
   const pattern = analysis.patterns.find((item) => item.identity.pattern_id === patternId);
   if (!pattern) {
-    document.title = "pattern unavailable · viral format radar";
+    document.title = "virality tracker";
     return shell(`<main id="main-content" class="page-shell"><a class="back-link" href="${radarHash(state)}">← back to radar</a><section class="empty-state"><h1 tabindex="-1">pattern unavailable</h1><p>we couldn’t find that pattern in this snapshot.</p></section></main>`, state);
   }
   const definition = definitionsById.get(pattern.identity.pattern_id);
@@ -403,7 +435,7 @@ const renderDetail = (patternId, rawState) => {
   const metrics = pattern.performance_metrics;
   const representatives = representativePosts(pattern, postsById);
   const firstEvent = pattern.creator_evidence[0];
-  document.title = `${lowerText(pattern.identity.pattern_name)} · viral format radar`;
+  document.title = "virality tracker";
   return shell(`
     <main id="main-content" class="page-shell research-page">
       <a class="back-link" href="${radarHash(state)}">← back to radar</a>
@@ -485,6 +517,8 @@ const bindRadarControls = () => {
   });
 };
 
+const bindDetailControls = () => bindAdoptionTimeline(document.querySelector("#spread"));
+
 const render = () => {
   const activeControl = document.activeElement?.matches(".filters select") ? document.activeElement.id : null;
   const route = parseRoute(location.hash);
@@ -492,6 +526,7 @@ const render = () => {
     ? renderDetail(route.patternId, route.state)
     : renderRadar(route.state);
   bindRadarControls();
+  bindDetailControls();
   if (hasRendered) {
     if (!activeControl) window.scrollTo(0, 0);
     (document.getElementById(activeControl) || document.querySelector("h1"))?.focus({ preventScroll: true });
