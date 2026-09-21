@@ -73,7 +73,8 @@ export function validateDataset(dataset) {
   for (const [key, value] of Object.entries(FROZEN_THRESHOLDS)) {
     add(thresholds[key] !== value, `frozen threshold mismatch: ${key}`);
   }
-  add(creators.length !== 30, `expected 30 creators, received ${creators.length}`);
+  const expectedCreatorCount = metadata.expected_creator_count ?? 30;
+  add(creators.length !== expectedCreatorCount, `expected ${expectedCreatorCount} creators, received ${creators.length}`);
 
   const duplicateCreatorIds = [...new Set(duplicates(creators.map((creator) => creator.creator_id)))];
   for (const id of duplicateCreatorIds) errors.push(`duplicate creator_id: ${id}`);
@@ -199,11 +200,13 @@ const calculatePostEvidence = (post, creatorPosts, thresholds) => {
       : "Supported";
   const viewLiftUnavailableReason = performanceReason(post, priorCount, baseline, thresholds);
   const viewLift = viewLiftUnavailableReason === null ? post.views_at_collection / baseline : null;
-  const amplificationUnavailableReason = post.reposts_at_collection === null
-    ? "missing_reposts"
-    : post.quotes_at_collection === null
-      ? "missing_quotes"
-      : null;
+  const amplificationUnavailableReason = !post.baseline_eligible
+    ? performanceReason(post, priorCount, baseline, thresholds)
+    : post.reposts_at_collection === null
+      ? "missing_reposts"
+      : post.quotes_at_collection === null
+        ? "missing_quotes"
+        : null;
   const amplifications = amplificationUnavailableReason === null
     ? post.reposts_at_collection + post.quotes_at_collection
     : null;
@@ -476,7 +479,7 @@ export function analyzeDataset(dataset) {
       observed_to_utc: dataset.metadata.observed_to_utc,
       response_type: dataset.metadata.response_type,
       thresholds: { ...thresholds },
-      expansion_dataset_included: false,
+      expansion_dataset_included: dataset.metadata.expansion_dataset_included === true,
     },
     summary: {
       analyzed_creator_count: dataset.creators.length,

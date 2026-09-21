@@ -69,14 +69,15 @@ const makeFixture = () => {
     return postId;
   };
 
-  const addHistory = (creatorId, viewCount, startDay = 1) => {
-    for (let day = startDay; day < startDay + 10; day += 1) {
+  const addHistory = (creatorId, viewCount, startDay = 1, count = 10) => {
+    for (let day = startDay; day < startDay + count; day += 1) {
       addPost({ creatorId, postedAt: `2026-07-${String(day).padStart(2, "0")}T12:00:00Z`, views: viewCount });
     }
   };
 
   addHistory("T-01", 100);
   const boundaryPostId = addPost({ creatorId: "T-01", postedAt: "2026-08-01T12:00:00Z", formatId: "FP-01", views: 150 });
+  addHistory("T-02", 100, 1, 5);
   addPost({ creatorId: "T-02", postedAt: "2026-08-02T08:00:00Z", precision: "day", formatId: "FP-01" });
   addPost({ creatorId: "T-03", postedAt: "2026-08-02T18:00:00Z", precision: "day", formatId: "FP-01", quotes: null });
   addHistory("T-04", 0, 11);
@@ -87,7 +88,7 @@ const makeFixture = () => {
   addPost({ creatorId: "T-05", postedAt: "2026-09-18T12:00:00Z", formatId: "FP-02", baselineEligible: false });
   addPost({ creatorId: "T-06", postedAt: "2026-09-19T12:00:00Z", formatId: "FP-02", baselineEligible: false });
 
-  const missingViewPostId = addPost({ creatorId: "T-07", postedAt: "2026-07-20T12:00:00Z", formatId: "FP-03", views: null, baselineEligible: false });
+  const missingViewPostId = addPost({ creatorId: "T-07", postedAt: "2026-07-20T12:00:00Z", formatId: "FP-03", views: null, reposts: null, baselineEligible: false });
   addPost({ creatorId: "T-08", postedAt: "2026-07-21T12:00:00Z", formatId: "FP-03" });
 
   addHistory("T-09", 100);
@@ -159,7 +160,8 @@ test("frozen Stage 3 rules cover boundary, missing, tie, lifecycle, and repeat e
   assert.equal(tiedA.adoption_rank, tiedB.adoption_rank);
   assert.equal(tiedA.early_adopter, true);
   assert.equal(tiedB.early_adopter, true);
-  assert.equal(tiedA.performance.view_lift_unavailable_reason, "insufficient_baseline_history");
+  assert.equal(tiedA.performance.baseline_quality, "Provisional");
+  assert.equal(tiedA.performance.view_lift, 1);
   assert.equal(tiedB.performance.amplifications, null);
   assert.equal(tiedB.performance.amplification_rate, null);
   assert.equal(zero.first_adoption_post_id, ids.zeroBaselinePostId);
@@ -168,8 +170,8 @@ test("frozen Stage 3 rules cover boundary, missing, tie, lifecycle, and repeat e
   assert.equal(zero.performance.view_lift_unavailable_reason, "zero_baseline");
   assert.equal(validated.lifecycle, "Validated");
   assert.equal(validated.validated_events.length, 1);
-  assert.equal(validated.performance_metrics.view_lift_sample_size, 1);
-  assert.equal(validated.performance_metrics.median_view_lift, null);
+  assert.equal(validated.performance_metrics.view_lift_sample_size, 2);
+  assert.equal(validated.performance_metrics.median_view_lift, 1.25);
 
   const emerging = pattern(analysis, "FP-02");
   assert.equal(emerging.lifecycle, "Emerging");
@@ -177,12 +179,15 @@ test("frozen Stage 3 rules cover boundary, missing, tie, lifecycle, and repeat e
   assert.equal(emerging.adoption_metrics.distinct_adopter_count, 2);
   assert.equal(event(emerging, "T-05").performance.view_lift, null);
   assert.equal(event(emerging, "T-05").performance.view_lift_unavailable_reason, "post_too_young");
+  assert.equal(event(emerging, "T-05").performance.amplifications, null);
+  assert.equal(event(emerging, "T-05").performance.amplification_unavailable_reason, "post_too_young");
 
   const fading = pattern(analysis, "FP-03");
   assert.equal(fading.lifecycle, "Fading");
   assert.equal(event(fading, "T-07").first_adoption_post_id, ids.missingViewPostId);
   assert.equal(event(fading, "T-07").performance.candidate_views, null);
   assert.equal(event(fading, "T-07").performance.view_lift_unavailable_reason, "missing_candidate_views");
+  assert.equal(event(fading, "T-07").performance.amplification_unavailable_reason, "missing_candidate_views");
 
   const insufficient = pattern(analysis, "FP-04");
   assert.equal(insufficient.lifecycle, "Insufficient Evidence");
@@ -191,7 +196,7 @@ test("frozen Stage 3 rules cover boundary, missing, tie, lifecycle, and repeat e
   assert.equal(event(insufficient, "T-09").repeat_use_count, 0);
   assert.equal(analysis.creators.find((creator) => creator.creator_id === "T-09").validated_format_count, 0);
   assert.equal(analysis.creators.find((creator) => creator.creator_id === "T-30").limitations[0].code, "collection_blocked");
-  assert.equal(analysis.summary.unclassified_format_post_count, 31);
+  assert.equal(analysis.summary.unclassified_format_post_count, 36);
   assertFinite(analysis);
 });
 

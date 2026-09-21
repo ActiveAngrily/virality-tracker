@@ -105,6 +105,7 @@ test("edge reasons and signal copy remain explicit and non-causal", () => {
     "missing_reposts",
     "missing_quotes",
     "limited_view_lift_sample",
+    "unavailable_source_link",
   ]) assert.doesNotMatch(unavailableReason(reason), /undefined|NaN|null/);
 
   for (const lifecycle of ["Validated", "Emerging", "Fading", "Insufficient Evidence"]) {

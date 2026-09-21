@@ -1,10 +1,10 @@
 # Viral Format Radar — Implementation Progress
 
-> Overall status: Stage 4 and visual redesign complete; Stage 5 ready
+> Overall status: all five stages complete; expanded snapshot frozen
 >
-> Updated: 2026-09-21
+> Updated: 2026-09-22
 >
-> Next action: none until the user authorizes Stage 5
+> Next action: none; review-ready package complete
 
 ## Dependency chain
 
@@ -30,7 +30,7 @@ No stage begins before the preceding stage satisfies its exit criteria.
 | 2. Collect and prepare X dataset | [`stage-2-x-dataset-collection.md`](./stage-2-x-dataset-collection.md) | Complete | 1,074 labeled base posts plus 982 labeled expansion posts; validated demo artifacts | Stage 1 complete |
 | 3. Build and verify analysis engine | [`stage-3-analysis-engine.md`](./stage-3-analysis-engine.md) | Complete | Verified deterministic analysis module | Stage 2 complete |
 | 4. Build product interface | [`stage-4-product-interface.md`](./stage-4-product-interface.md) | Complete | Functional two-screen local web app with research-led visual system | Stage 3 complete |
-| 5. Integrate, audit, and package | [`stage-5-integrate-audit-package.md`](./stage-5-integrate-audit-package.md) | Ready; not started | Review-ready frozen proof of concept | Stage 4 complete |
+| 5. Integrate, audit, and package | [`stage-5-integrate-audit-package.md`](./stage-5-integrate-audit-package.md) | Complete | Review-ready frozen 60-creator proof of concept | Stage 4 complete |
 
 ## Status definitions
 
@@ -44,10 +44,12 @@ No stage begins before the preceding stage satisfies its exit criteria.
 
 - Product: Viral Format Radar.
 - Platform: X only.
-- Cohort: exactly 30 individual B2B technology/startup creators.
+- Cohort: preserved original 30-creator snapshot plus the approved, disjoint
+  30-creator expansion; the app uses a derived 60-creator snapshot.
 - Sample: up to 50 contiguous recent original posts per creator.
 - Collection: one-time Codex browser control through the rendered X UI.
-- Dataset: one frozen local application dataset.
+- Dataset: preserved base and expansion artifacts plus one frozen derived local
+  application dataset.
 - Primary metric: public views captured at the fixed collection snapshot.
 - Spread evidence: public repost-plus-quote amplification and amplification
   rate; likes and replies are supporting context.
@@ -228,12 +230,9 @@ No stage begins before the preceding stage satisfies its exit criteria.
   and a withheld median. The Radar evidence-state guide documents the
   canonical-zero or fixture-only cases: zero baseline, missing views/reposts,
   Fading, insufficient evidence, and unavailable source links.
-- Known Stage 3 limitation: young posts can receive amplification calculations
-  when both repost and quote counts are complete. The canonical base output is
-  unaffected because every quote count is null. A small Stage 3 eligibility
-  guard is still required before final packaging if later data can contain
-  complete young-post amplification inputs; it was intentionally not changed
-  during Stage 4.
+- Stage 5 resolved the known young-post limitation at the shared Stage 3
+  performance calculation: young posts still count toward adoption, while view
+  lift, amplification count, and amplification rate remain unavailable.
 - Exit result: every Stage 4 criterion passed. Stage 4 is complete and Stage 5
   is ready.
 
@@ -255,16 +254,16 @@ No stage begins before the preceding stage satisfies its exit criteria.
 
 ## Stage 5 checklist
 
-- [ ] Trace every visible metric to source data.
-- [ ] Audit ratios, samples, lifecycle, and evidence states.
-- [ ] Test missing, young, unclassified, and zero-baseline cases.
-- [ ] Verify representative source links.
-- [ ] Complete accessibility and claim-language audits.
-- [ ] Remove unused code and dependencies.
-- [ ] Verify clean setup, checks, and production build.
-- [ ] Add setup and demo instructions.
-- [ ] Freeze the final dataset and implementation.
-- [ ] Mark the project complete.
+- [x] Trace every visible metric to source data.
+- [x] Audit ratios, samples, lifecycle, and evidence states.
+- [x] Test missing, young, unclassified, and zero-baseline cases.
+- [x] Verify representative source links.
+- [x] Complete accessibility and claim-language audits.
+- [x] Remove unused code and dependencies.
+- [x] Verify clean setup, checks, and production build.
+- [x] Add setup and demo instructions.
+- [x] Freeze the final dataset and implementation.
+- [x] Mark the project complete.
 
 ## Stage completion log
 
@@ -290,6 +289,7 @@ No stage begins before the preceding stage satisfies its exit criteria.
 | 2026-09-21 | Stage 2 labeling and freeze | Ran Jev over 2,056 records, reviewed the full ledger, preserved 35 missing-text cases as unclassified, populated both labeled artifacts, and passed final Stage 2 validation | `tmp/jev-label-review-all.json`, `data/demo-data.json`, `data/demo-data.expansion.json`, `scripts/validate-stage2.mjs` |
 | 2026-09-21 | Stage 3 analysis engine | Implemented and verified deterministic base-cohort validation, baselines, view lift, amplification, adoption, lifecycle, evidence quality, and repeat evidence without merging the expansion cohort | `src/analysis.mjs`, `scripts/test-stage3.mjs`; `npm test` passes |
 | 2026-09-21 | Stage 4 product interface | Built and browser-verified the two-screen local Radar interface with native hash state, deterministic controls, complete evidence detail, responsive styling, accessible timelines, and explicit unavailable states | `index.html`, `src/main.mjs`, `src/ui-model.mjs`, `src/styles.css`, `scripts/test-stage4.mjs`; 8 tests and production build pass |
+| 2026-09-22 | Stage 5 expanded integration | Validated disjoint source cohorts, built and froze the 60-creator derived snapshot, moved the app to it, fixed young-post performance eligibility, traced displayed values, completed accessibility/runtime/copy audits, and packaged reproducible validation and setup | `data/demo-data.expanded.json`, Stage 5 tests/validator, browser checks, clean install, production build |
 
 ## Reopening rule
 

@@ -1,4 +1,4 @@
-import dataset from "../data/demo-data.json";
+import dataset from "../data/demo-data.expanded.json";
 import { analyzeDataset } from "./analysis.mjs";
 import {
   detailHash,
@@ -88,12 +88,12 @@ const contextPanel = () => {
   return `
     <section id="methods" class="context-panel" aria-labelledby="context-heading">
       <div class="section-heading section-heading--compact">
-        <p class="eyebrow">snapshot</p>
+        <p class="eyebrow">expanded 60-creator snapshot</p>
         <h2 id="context-heading">fixed research context</h2>
       </div>
       <dl class="context-grid">
         <div><dt>platform</dt><dd>${escapeHtml(metadata.platform)}</dd></div>
-        <div><dt>cohort</dt><dd>${analysis.summary.analyzed_creator_count} public creators across b2b tech, startups, product, growth, venture, and developer tools.</dd></div>
+        <div><dt>cohort</dt><dd>${escapeHtml(metadata.cohort_description)}</dd></div>
         <div><dt>observation window</dt><dd>${formatDate(metadata.observed_from_utc)}–${formatDate(metadata.observed_to_utc)}</dd></div>
         <div><dt>analysis date</dt><dd>${formatDate(metadata.analysis_as_of_utc)}</dd></div>
         <div><dt>collection date</dt><dd>${formatDate(metadata.collection_completed_at_utc)}</dd></div>
@@ -101,7 +101,7 @@ const contextPanel = () => {
         <div><dt>codebook version</dt><dd>${escapeHtml(metadata.codebook_version)}</dd></div>
         <div><dt>threshold version</dt><dd>${escapeHtml(metadata.threshold_version)}</dd></div>
       </dl>
-      <p class="context-limitation"><strong>scope:</strong> this is one selected cohort and one fixed snapshot. it doesn’t show who originated a pattern, what caused it, or what will happen next.</p>
+      <p class="context-limitation"><strong>scope:</strong> this expanded 60-creator snapshot combines the preserved original 30-creator snapshot with 30 additional creators. it remains one selected cohort and doesn’t show who originated a pattern, what caused it, or what will happen next.</p>
     </section>`;
 };
 
@@ -123,7 +123,6 @@ const patternExplanation = (pattern) => {
 const patternTypeLabel = (type) => type === "format" ? "format · how the post is structured" : "hook · how the post opens";
 
 const renderSignalCard = (pattern, state) => {
-  const family = familiesById.get(pattern.identity.format_family_id);
   const metrics = pattern.performance_metrics;
   const adoption = pattern.adoption_metrics;
   const lifecycleClass = pattern.lifecycle.toLowerCase().replaceAll(" ", "-");
@@ -147,7 +146,6 @@ const renderSignalCard = (pattern, state) => {
 };
 
 const renderPatternCard = (pattern, state) => {
-  const definition = definitionsById.get(pattern.identity.pattern_id);
   const family = familiesById.get(pattern.identity.format_family_id);
   const metrics = pattern.performance_metrics;
   const adoption = pattern.adoption_metrics;
@@ -189,9 +187,9 @@ const renderRadar = (rawState) => {
   return shell(`
     <main id="main-content" class="page-shell radar-page">
       <section class="page-heading">
-        <div class="hero-meta"><span>field notes / ${analysis.summary.analyzed_creator_count} creators</span><span>${formatDate(dataset.metadata.analysis_as_of_utc)}</span></div>
+        <div class="hero-meta"><span>expanded 60-creator snapshot</span><span>${formatDate(dataset.metadata.analysis_as_of_utc)}</span></div>
         <h1 tabindex="-1">virality tracker<br><em>a closer look at what spreads</em></h1>
-        <p>how do creators structure their posts, and how do they get readers interested? explore recurring patterns across ${analysis.summary.analyzed_creator_count} public X creators.</p>
+        <p>explore recurring formats and hooks observed in this expanded cohort of ${analysis.summary.analyzed_creator_count} public X creators.</p>
         <a class="hero-action" href="#reading-guide-heading">how to read the radar <span aria-hidden="true">↘</span></a>
       </section>
       <section class="reading-guide" aria-labelledby="reading-guide-heading">
@@ -378,7 +376,7 @@ const limitations = (pattern) => {
         <h2 id="limitations-heading">limits of the data</h2>
       </div>
       <ul>
-        <li><strong>one selected cohort:</strong> here’s what we saw among ${analysis.summary.analyzed_creator_count} public creators. it doesn’t describe all of X.</li>
+        <li><strong>expanded selected cohort:</strong> here’s what we observed among ${analysis.summary.analyzed_creator_count} public creators. it combines the preserved original 30-creator snapshot with 30 additional creators and doesn’t describe all of X.</li>
         <li><strong>performance sample:</strong> median view lift uses ${plural(metrics.view_lift_sample_size, "qualifying first post")}. fewer than ${dataset.thresholds.minimum_pattern_metric_sample} qualifying posts means the median is unavailable. keep the small sample in mind.</li>
         <li><strong>baseline limits:</strong> each post is compared with up to ${dataset.thresholds.baseline_history_cap} earlier posts from the same creator. a provisional baseline has less history; missing or zero baselines can’t support a view-lift comparison.</li>
         <li><strong>missing counts:</strong> repost or quote counts weren’t available for some posts. amplification is unavailable if either count is missing; missing values never become zero.</li>
@@ -410,7 +408,7 @@ const renderDetail = (patternId, rawState) => {
     <main id="main-content" class="page-shell research-page">
       <a class="back-link" href="${radarHash(state)}">← back to radar</a>
       <section class="detail-heading">
-        <p class="eyebrow">research note · ${escapeHtml(pattern.identity.pattern_type)}${family ? ` · ${escapeHtml(lowerText(family.name))}` : ""}</p>
+        <p class="eyebrow">expanded 60-creator snapshot · research note · ${escapeHtml(pattern.identity.pattern_type)}${family ? ` · ${escapeHtml(lowerText(family.name))}` : ""}</p>
         <h1 tabindex="-1">${escapeHtml(lowerText(pattern.identity.pattern_name))}</h1>
         <p class="pattern-kicker">${patternTypeLabel(pattern.identity.pattern_type)}</p>
         ${patternExplanation(pattern)}
