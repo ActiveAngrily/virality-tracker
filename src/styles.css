@@ -181,7 +181,7 @@ h3 { margin-bottom: .5rem; font-size: 1.35rem; font-weight: 600; }
 .radar-page .page-heading { padding: 0 0 48px; }
 .hero-meta { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 64px; color: var(--muted); font-size: .7rem; letter-spacing: .04em; }
 .page-heading h1 { font-size: clamp(3.7rem, 6.7vw, 5.8rem); font-weight: 500; line-height: 1.08; letter-spacing: -.045em; margin-bottom: 30px; }
-.page-heading h1 em { font: inherit; color: var(--accent); }
+.page-heading h1 em { font: inherit; color: var(--accent); font-size: clamp(2.1rem, 4vw, 3.55rem); letter-spacing: -.025em; display: inline-block; margin-top: -.28em; }
 .page-heading > p { color: var(--muted); font-size: .95rem; line-height: 1.7; }
 .hero-action { display: inline-flex; align-items: center; justify-content: space-between; gap: 3rem; margin-top: 20px; padding: 14px 22px; border-radius: 999px; background: var(--accent); color: #fffdf7; font-size: .78rem; text-decoration: none; }
 .hero-action:hover { background: #3f523f; }
@@ -209,6 +209,7 @@ h3 { margin-bottom: .5rem; font-size: 1.35rem; font-weight: 600; }
   .content-canvas { margin: 20px; }
   .hero-meta { margin-bottom: 48px; font-size: .65rem; }
   .page-heading h1 { font-size: clamp(3rem, 9vw, 4.2rem); }
+  .page-heading h1 em { font-size: clamp(1.4rem, 4.6vw, 2.2rem); }
   .signal-card { grid-template-columns: 1fr; }
   .signal-card header, .signal-card > p, .signal-card__facts, .signal-card .action-link { grid-column: 1; grid-row: auto; }
   .signal-card__facts { margin-top: 8px; }
@@ -222,6 +223,7 @@ h3 { margin-bottom: .5rem; font-size: 1.35rem; font-weight: 600; }
   .page-shell { padding: 28px 20px; }
   .hero-meta { flex-wrap: wrap; }
   .page-heading h1 { font-size: 3rem; }
+  .page-heading h1 em { font-size: 1.35rem; letter-spacing: -.015em; }
 }
 /* Explain the idea before asking readers to interpret its evidence. */
 .concept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }

@@ -190,7 +190,7 @@ const renderRadar = (rawState) => {
     <main id="main-content" class="page-shell radar-page">
       <section class="page-heading">
         <div class="hero-meta"><span>field notes / ${analysis.summary.analyzed_creator_count} creators</span><span>${formatDate(dataset.metadata.analysis_as_of_utc)}</span></div>
-        <h1 tabindex="-1">a closer look at<br><em>what spreads.</em></h1>
+        <h1 tabindex="-1">virality tracker<br><em>a closer look at what spreads</em></h1>
         <p>how do creators structure their posts, and how do they get readers interested? explore recurring patterns across ${analysis.summary.analyzed_creator_count} public X creators.</p>
         <a class="hero-action" href="#reading-guide-heading">how to read the radar <span aria-hidden="true">↘</span></a>
       </section>
