@@ -200,7 +200,7 @@ const renderRadar = (rawState) => {
       <section class="page-heading">
         ${headerMeta}
         <h1 tabindex="-1">virality tracker<br><em>a closer look at what spreads</em></h1>
-        <p>explore recurring formats and hooks observed in the original cohort of ${analysis.summary.analyzed_creator_count} public X creators and ${formatNumber(analysis.summary.analyzed_post_count)} posts.</p>
+        <p>find the formats and hooks behind unusually strong posts, then track whether other creators pick them up.</p>
         <a class="hero-action" href="#reading-guide-heading">how to read the radar <span aria-hidden="true">↘</span></a>
       </section>
       <section class="reading-guide" aria-labelledby="reading-guide-heading">
